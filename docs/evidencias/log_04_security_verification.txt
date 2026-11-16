@@ -1,0 +1,44 @@
+Contexto do banco de dados alterado para 'CacauAppBD'.
+=== 1. VERIFICACAO DE DYNAMIC DATA MASKING (DDM) & SHA-256 ===
+id_usuario nome cpf_mascarado_auditor email_mascarado_auditor papel
+---------- ---- --------------------- ----------------------- -----
+1 Tecnico Campo Um (Ficticio) 111.***.***-01 tXXX@XXXX.com Tecnico_Campo
+2 Tecnico Campo Dois (Ficticio) 222.***.***-02 tXXX@XXXX.com Tecnico_Campo
+3 Auditor Agronomo (Ficticio) 333.***.***-03 aXXX@XXXX.com Auditor_Agronomo
+id_usuario nome cpf_desmascarado_admin email_desmascarado_admin sha256_hex
+---------- ---- ---------------------- ------------------------ ----------
+1 Tecnico Campo Um (Ficticio) 111.222.333-01 tecnico1@cacauapp-ficticio.invalid 097D7E07638886F63499603B772BB6F5732E43DB5F06E70D9DEAFE784CFF2B05
+2 Tecnico Campo Dois (Ficticio) 222.333.444-02 tecnico2@cacauapp-ficticio.invalid 478893696CF2A686660949D8F6E048B4E37585437CB6BA2D46E2260F1A1F33DC
+3 Auditor Agronomo (Ficticio) 333.444.555-03 auditor@cacauapp-ficticio.invalid 668AC5A278FFD14BE8FD9A075E7DEDA4218D485EBFA23F82B0BBF3EA5BF4B3DB
+=== 2. VERIFICACAO DE ROW-LEVEL SECURITY (RLS) ===
+PerfilAtual FazendasVisiveis CodigosVisiveis ColetasVisiveis
+----------- ---------------- --------------- ---------------
+usr_tecnico1 1 FAZ-01 10000
+PerfilAtual FazendasVisiveis CodigosVisiveis ColetasVisiveis
+----------- ---------------- --------------- ---------------
+usr_tecnico2 1 FAZ-02 10000
+PerfilAtual FazendasVisiveis ColetasVisiveis
+----------- ---------------- ---------------
+usr_auditor1 10 100000
+=== 3. TESTES EXPLICITOS DE ALLOW / DENY POR PAPEL ===
+id_teste papel usuario objeto operacao esperado obtido detalhe
+-------- ----- ------- ------ -------- -------- ------ -------
+1 Tecnico_Campo usr_tecnico1 dbo.Coletas SELECT (com RLS) ALLOW ALLOW Retornou 10000 linhas (apenas Fazenda 1)
+2 Tecnico_Campo usr_tecnico1 dbo.Coletas INSERT ALLOW ALLOW Insercao de coleta permitida
+3 Tecnico_Campo usr_tecnico1 dbo.Coletas UPDATE DENY DENY A permissÆo UPDATE foi negada no objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'.
+4 Tecnico_Campo usr_tecnico1 dbo.Coletas DELETE DENY DENY A permissÆo DELETE foi negada no objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'.
+5 Tecnico_Campo usr_tecnico1 dbo.Usuarios SELECT DENY DENY A permissÆo SELECT foi negada no objeto 'Usuarios', banco de dados 'CacauAppBD', esquema 'dbo'.
+6 Tecnico_Campo usr_tecnico1 dbo.Auditoria_Log SELECT DENY DENY A permissÆo SELECT foi negada no objeto 'Auditoria_Log', banco de dados 'CacauAppBD', esquema 'dbo'.
+7 Auditor_Agronomo usr_auditor1 dbo.Usuarios.cpf SELECT (DDM) MASKED MASKED CPF retornado: 111.***.***-01
+8 Auditor_Agronomo usr_auditor1 dbo.Usuarios.senha_hash SELECT DENY DENY A permissÆo SELECT foi negada na coluna 'senha_hash' do objeto 'Usuarios', banco de dados 'CacauAppBD', esquema 'dbo'.
+9 Auditor_Agronomo usr_auditor1 dbo.Coletas.status_validacao UPDATE ALLOW ALLOW Status de validacao atualizado
+10 Auditor_Agronomo usr_auditor1 dbo.Coletas.qtd_sadios UPDATE DENY DENY A permissÆo UPDATE foi negada na coluna 'qtd_sadios' do objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'.
+11 Auditor_Agronomo usr_auditor1 dbo.Coletas DELETE DENY DENY A permissÆo DELETE foi negada no objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'.
+12 Admin_Sistema usr_admin1 dbo.Usuarios.cpf SELECT (UNMASK) ALLOW ALLOW CPF real autorizado: 111.222.333-01
+13 Admin_Sistema usr_admin1 dbo.Auditoria_Log SELECT ALLOW ALLOW Logs visiveis: 1
+14 Admin_Sistema usr_admin1 dbo.Auditoria_Log DELETE DENY DENY A permissÆo DELETE foi negada no objeto 'Auditoria_Log', banco de dados 'CacauAppBD', esquema 'dbo'.
+15 Role_App_IA usr_app_ia dbo.vw_Coletas_Publico_IA SELECT ALLOW ALLOW Registros agronomicos sem PII: 100001
+16 Role_App_IA usr_app_ia dbo.Coletas INSERT ALLOW ALLOW IA gravou contagem inferida
+17 Role_App_IA usr_app_ia dbo.Usuarios SELECT DENY DENY A permissÆo SELECT foi negada no objeto 'Usuarios', banco de dados 'CacauAppBD', esquema 'dbo'.
+18 Role_App_IA usr_app_ia dbo.Coletas DELETE DENY DENY A permissÆo SELECT foi negada no objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'.
+19 Role_App_IA usr_app_ia dbo.Auditoria_Log SELECT DENY DENY A permissÆo SELECT foi negada no objeto 'Auditoria_Log', banco de dados 'CacauAppBD', esquema 'dbo'.

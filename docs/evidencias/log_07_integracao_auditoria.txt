@@ -1,0 +1,106 @@
+[
+  [
+    "T1: IA analisa foto e salva coleta",
+    {
+      "caller_user": "usr_app_ia",
+      "role": "Role_App_IA",
+      "image": "sample_01_cacau_vermelho.jpg",
+      "detected_pods": 8,
+      "mean_confidence": 0.8347,
+      "latency_ms": 275.03,
+      "used_gamma_lut": false,
+      "db_status": "PERMITIDO",
+      "db_output": "novo_id_coleta\r\n--------------\r\n100003"
+    }
+  ],
+  [
+    "T2: IA lê estatística pública",
+    {
+      "caller_user": "usr_app_ia",
+      "role": "Role_App_IA",
+      "query_type": "estatisticas_publicas",
+      "status": "PERMITIDO",
+      "allowed": true,
+      "output": "clone coletas sadios vassoura podridao\r\n----- ------- ------ -------- --------\r\nCCN-51 20002 230012 30000 20001\r\nPS-1319 20001 229994 30001 19999\r\nVB-1151 20000 229992 30000 19999\r\nTSH-1188 20000 229990 30000 20000\r\nCEPEC-2 20000 229988 30000 20001"
+    }
+  ],
+  [
+    "T3: IA tenta ler CPF de usuários",
+    {
+      "caller_user": "usr_app_ia",
+      "role": "Role_App_IA",
+      "query_type": "ler_usuarios_pii",
+      "status": "NEGADO",
+      "allowed": false,
+      "output": "Mensagem 50000, N¡vel 16, Estado 1, Servidor DESKTOP-1PQMKM4, Linha 12\r\n A permissÆo SELECT foi negada no objeto 'Usuarios', banco de dados 'CacauAppBD', esquema 'dbo'."
+    }
+  ],
+  [
+    "T4: Técnico pede fazendas via IA",
+    {
+      "caller_user": "usr_tecnico1",
+      "role": "Tecnico_Campo",
+      "query_type": "resumo_fazendas",
+      "status": "PERMITIDO",
+      "allowed": true,
+      "output": "id_fazenda codigo_fazenda nome_fazenda municipio_uf\r\n---------- -------------- ------------ ------------\r\n1 FAZ-01 Fazenda Esperanca (Ficticia) Ilheus - BA"
+    }
+  ],
+  [
+    "T5: Técnico pede CPF via IA",
+    {
+      "caller_user": "usr_tecnico1",
+      "role": "Tecnico_Campo",
+      "query_type": "ler_usuarios_pii",
+      "status": "NEGADO",
+      "allowed": false,
+      "output": "Mensagem 50000, N¡vel 16, Estado 1, Servidor DESKTOP-1PQMKM4, Linha 12\r\n A permissÆo SELECT foi negada no objeto 'Usuarios', banco de dados 'CacauAppBD', esquema 'dbo'."
+    }
+  ],
+  [
+    "T6: Técnico pede DELETE via IA",
+    {
+      "caller_user": "usr_tecnico1",
+      "role": "Tecnico_Campo",
+      "query_type": "apagar_coleta",
+      "status": "NEGADO",
+      "allowed": false,
+      "output": "Mensagem 50000, N¡vel 16, Estado 1, Servidor DESKTOP-1PQMKM4, Linha 12\r\n A permissÆo DELETE foi negada no objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'."
+    }
+  ],
+  [
+    "T7: Auditor pede usuários via IA",
+    {
+      "caller_user": "usr_auditor1",
+      "role": "Auditor_Agronomo",
+      "query_type": "ler_usuarios_pii",
+      "status": "PERMITIDO",
+      "allowed": true,
+      "output": "id_usuario nome cpf email papel\r\n---------- ---- --- ----- -----\r\n1 Tecnico Campo Um (Ficticio) 111.***.***-01 tXXX@XXXX.com Tecnico_Campo\r\n2 Tecnico Campo Dois (Ficticio) 222.***.***-02 tXXX@XXXX.com Tecnico_Campo\r\n3 Auditor Agronomo (Ficticio) 333.***.***-03 aXXX@XXXX.com Auditor_Agronomo"
+    }
+  ],
+  [
+    "T8: Ataque SQL Injection via IA",
+    {
+      "caller_user": "usr_tecnico1",
+      "role": "Tecnico_Campo",
+      "query_type": "SQLI_GUARD (estatisticas_publicas)",
+      "status": "BLOQUEADO_SQLI",
+      "allowed": false,
+      "output": "Padrao malicioso detectado no prompt: ('|\\\")\\s*or\\s+1\\s*=\\s*1"
+    }
+  ]
+]
+
+=== AUDITORIA_LOG ===
+id_log quando usuario_solicitante papel_executado acao objeto_alvo status_execucao
+------ ------ ------------------- --------------- ---- ----------- ---------------
+9 2026-11-16 20:27:40 usr_tecnico1 Tecnico_Campo SQLI_BLOCKED IA_Prompt_Guard BLOQUEADO_SQLI
+8 2026-11-16 20:27:40 usr_auditor1 Auditor_Agronomo SELECT_PII dbo.Usuarios PERMITIDO
+7 2026-11-16 20:27:40 usr_tecnico1 Tecnico_Campo DELETE_ATTEMPT dbo.Coletas NEGADO
+6 2026-11-16 20:27:39 usr_tecnico1 Tecnico_Campo SELECT_PII dbo.Usuarios NEGADO
+5 2026-11-16 20:27:39 usr_tecnico1 Tecnico_Campo SELECT_RLS dbo.Fazendas PERMITIDO
+4 2026-11-16 20:27:39 usr_app_ia Role_App_IA SELECT_PII dbo.Usuarios NEGADO
+3 2026-11-16 20:27:38 usr_app_ia Role_App_IA SELECT_VIEW dbo.vw_Coletas_Publico_IA PERMITIDO
+2 2026-11-16 20:27:38 usr_app_ia Role_App_IA IA_INFER_INSERT dbo.Coletas PERMITIDO
+1 2026-11-16 20:27:18 dbo Admin_Setup SEED_VOLUME dbo.Coletas PERMITIDO

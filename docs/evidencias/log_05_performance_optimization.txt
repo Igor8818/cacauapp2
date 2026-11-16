@@ -1,0 +1,366 @@
+Contexto do banco de dados alterado para 'CacauAppBD'.
+=== PLANO DE EXECUCAO - ANTES DOS INDICES ===
+StmtText
+--------
+-- Consulta Lenta 1: Soma de frutos sadios/doentes por fazenda e janela recente
+SELECT id_fazenda, clone,
+       COUNT(*) AS total_registros,
+       SUM(qtd_sadios) AS total_sadios,
+       SUM(qtd_vassoura) AS total_vassoura,
+       SUM(qtd_podridao) AS total_podridao
+FROM dbo.Coletas
+WHERE id_fazenda = 3
+  AND data_coleta >= '2026-09-01T00:00:00'
+GROUP BY id_fazenda, clone;
+
+(1 linhas afetadas)
+StmtText
+--------
+  |--Compute Scalar(DEFINE:([Expr1005]=CONVERT_IMPLICIT(int,[Expr1021],0)))
+       |--Hash Match(Aggregate, HASH:([CacauAppBD].[dbo].[Coletas].[clone]), RESIDUAL:([CacauAppBD].[dbo].[Coletas].[clone] = [CacauAppBD].[dbo].[Coletas].[clone]) DEFINE:([Expr1021]=COUNT(*), [Expr1006]=SUM([CacauAppBD].[dbo].[Coletas].[qtd_sadios]), [Expr1007]=SUM([CacauAppBD].[dbo].[Coletas].[qtd_vassoura]), [Expr1008]=SUM([CacauAppBD].[dbo].[Coletas].[qtd_podridao]), [CacauAppBD].[dbo].[Coletas].[id_fazenda]=ANY([CacauAppBD].[dbo].[Coletas].[id_fazenda])))
+            |--Nested Loops(Left Semi Join, OUTER REFERENCES:([CacauAppBD].[dbo].[Coletas].[id_fazenda]))
+                 |--Clustered Index Scan(OBJECT:([CacauAppBD].[dbo].[Coletas].[PK__Coletas__32B7C75A49604D83]), WHERE:([CacauAppBD].[dbo].[Coletas].[id_fazenda]=(3) AND [CacauAppBD].[dbo].[Coletas].[data_coleta]>='2026-09-01 00:00:00.0000000'))
+                 |--Concatenation
+                      |--Filter(WHERE:(STARTUP EXPR(user_name()=N'usr_app_ia' OR user_name()=N'usr_admin1' OR user_name()=N'usr_auditor1' OR user_name()=N'dbo')))
+                      |    |--Constant Scan
+                      |--Clustered Index Seek(OBJECT:([CacauAppBD].[sec].[Escopo_Fazenda].[PK__Escopo_F__C2C9DE776DEB3A57] AS [ef]), SEEK:([ef].[login_db]=user_name()),  WHERE:([CacauAppBD].[sec].[Escopo_Fazenda].[id_fazenda_permitida] as [ef].[id_fazenda_permitida] IS NULL OR [CacauAppBD].[sec].[Escopo_Fazenda].[id_fazenda_permitida] as [ef].[id_fazenda_permitida]=[CacauAppBD].[dbo].[Coletas].[id_fazenda]) ORDERED FORWARD)
+
+(8 linhas afetadas)
+StmtText
+--------
+-- Consulta Lenta 2: Historico recente pendente de tecnico ordenado por data (gera Scan + Sort)
+SELECT TOP 100 id_coleta, plant_id, data_coleta, qtd_total_ia, qtd_total_auditada
+FROM dbo.Coletas
+WHERE id_usuario = 1
+  AND status_validacao = 'Pendente'
+ORDER BY data_coleta DESC;
+
+(1 linhas afetadas)
+StmtText
+--------
+  |--Top(TOP EXPRESSION:((100)))
+       |--Nested Loops(Left Semi Join, OUTER REFERENCES:([CacauAppBD].[dbo].[Coletas].[id_fazenda]))
+            |--Sort(ORDER BY:([CacauAppBD].[dbo].[Coletas].[data_coleta] DESC))
+            |    |--Clustered Index Scan(OBJECT:([CacauAppBD].[dbo].[Coletas].[PK__Coletas__32B7C75A49604D83]), WHERE:([CacauAppBD].[dbo].[Coletas].[id_usuario]=(1) AND [CacauAppBD].[dbo].[Coletas].[status_validacao]='Pendente'))
+            |--Concatenation
+                 |--Filter(WHERE:(STARTUP EXPR(user_name()=N'usr_app_ia' OR user_name()=N'usr_admin1' OR user_name()=N'usr_auditor1' OR user_name()=N'dbo')))
+                 |    |--Constant Scan
+                 |--Clustered Index Seek(OBJECT:([CacauAppBD].[sec].[Escopo_Fazenda].[PK__Escopo_F__C2C9DE776DEB3A57] AS [ef]), SEEK:([ef].[login_db]=user_name()),  WHERE:([CacauAppBD].[sec].[Escopo_Fazenda].[id_fazenda_permitida] as [ef].[id_fazenda_permitida] IS NULL OR [CacauAppBD].[sec].[Escopo_Fazenda].[id_fazenda_permitida] as [ef].[id_fazenda_permitida]=[CacauAppBD].[dbo].[Coletas].[id_fazenda]) ORDERED FORWARD)
+
+(8 linhas afetadas)
+=== METRICAS IO / TEMPO - ANTES DOS INDICES ===
+A execu‡Æo do DBCC foi conclu¡da. Se o DBCC imprimiu mensagens de erro, entre em contato com o administrador do sistema.
+Tempo de an lise e compila‡Æo do SQL Server: 
+   Tempo de CPU = 0 ms, tempo decorrido = 8 ms.
+id_fazenda clone total_registros total_sadios total_vassoura total_podridao
+---------- ----- --------------- ------------ -------------- --------------
+3 TSH-1188 10000 119992 20000 9999
+
+(1 linhas afetadas)
+Tabela ''Worktable''. Contagem de verifica‡Æo 0, leituras l¢gicas 0, leituras f¡sicas 0, leituras do servidor de p ginas 0, leituras antecipadas 0, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+Tabela ''Workfile''. Contagem de verifica‡Æo 0, leituras l¢gicas 0, leituras f¡sicas 0, leituras do servidor de p ginas 0, leituras antecipadas 0, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+Tabela ''Worktable''. Contagem de verifica‡Æo 0, leituras l¢gicas 0, leituras f¡sicas 0, leituras do servidor de p ginas 0, leituras antecipadas 0, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+Tabela ''Coletas''. Contagem de verifica‡Æo 1, leituras l¢gicas 1799, leituras f¡sicas 1057, leituras do servidor de p ginas 0, leituras antecipadas 1795, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+
+ Tempos de Execu‡Æo do SQL Server:
+ Tempo de CPU = 188 ms, tempo decorrido = 125078 ms.
+Tempo de an lise e compila‡Æo do SQL Server: 
+   Tempo de CPU = 0 ms, tempo decorrido = 12 ms.
+id_coleta plant_id data_coleta qtd_total_ia qtd_total_auditada
+--------- -------- ----------- ------------ ------------------
+100001 CCN-51_P1_Pl99 2026-11-16 20:27:19.9160506 10 10
+41891 VB-1151_P4_Pl4 2026-11-16 11:56:00.0000000 6 6
+67541 TSH-1188_P8_Pl8 2026-11-16 11:52:00.0000000 11 11
+10271 CEPEC-2_P12_Pl12 2026-11-16 11:48:00.0000000 13 13
+84771 PS-1319_P16_Pl16 2026-11-16 11:44:00.0000000 18 18
+13091 CCN-51_P20_Pl20 2026-11-16 11:40:00.0000000 23 23
+34781 VB-1151_P24_Pl24 2026-11-16 11:36:00.0000000 3 3
+77671 TSH-1188_P3_Pl28 2026-11-16 11:32:00.0000000 8 8
+12651 CEPEC-2_P7_Pl32 2026-11-16 11:28:00.0000000 13 13
+3901 PS-1319_P11_Pl36 2026-11-16 11:24:00.0000000 15 15
+89301 CCN-51_P15_Pl40 2026-11-16 11:20:00.0000000 20 20
+33931 VB-1151_P19_Pl4 2026-11-16 11:16:00.0000000 3 3
+64851 TSH-1188_P23_Pl8 2026-11-16 11:12:00.0000000 5 5
+89201 CEPEC-2_P2_Pl12 2026-11-16 11:08:00.0000000 10 10
+2031 PS-1319_P6_Pl16 2026-11-16 11:04:00.0000000 15 15
+13261 CCN-51_P10_Pl20 2026-11-16 11:00:00.0000000 17 17
+37401 VB-1151_P14_Pl24 2026-11-16 10:56:00.0000000 22 22
+63391 TSH-1188_P18_Pl28 2026-11-16 10:52:00.0000000 5 5
+11971 CEPEC-2_P22_Pl32 2026-11-16 10:48:00.0000000 7 7
+2371 PS-1319_P1_Pl36 2026-11-16 10:44:00.0000000 12 12
+12341 CCN-51_P5_Pl40 2026-11-16 10:40:00.0000000 17 17
+42501 VB-1151_P9_Pl4 2026-11-16 10:36:00.0000000 19 19
+67641 TSH-1188_P13_Pl8 2026-11-16 10:32:00.0000000 2 2
+12241 CEPEC-2_P17_Pl12 2026-11-16 10:28:00.0000000 7 7
+88101 PS-1319_P21_Pl16 2026-11-16 10:24:00.0000000 9 9
+13191 CCN-51_P25_Pl20 2026-11-16 10:20:00.0000000 14 14
+41901 VB-1151_P4_Pl24 2026-11-16 10:16:00.0000000 19 19
+67551 TSH-1188_P8_Pl28 2026-11-16 10:12:00.0000000 21 21
+10281 CEPEC-2_P12_Pl32 2026-11-16 10:08:00.0000000 4 4
+88011 PS-1319_P16_Pl36 2026-11-16 10:04:00.0000000 9 9
+13101 CCN-51_P20_Pl40 2026-11-16 10:00:00.0000000 11 11
+34791 VB-1151_P24_Pl4 2026-11-16 09:56:00.0000000 16 16
+77681 TSH-1188_P3_Pl8 2026-11-16 09:52:00.0000000 21 21
+12661 CEPEC-2_P7_Pl12 2026-11-16 09:48:00.0000000 1 1
+5101 PS-1319_P11_Pl16 2026-11-16 09:44:00.0000000 6 6
+89311 CCN-51_P15_Pl20 2026-11-16 09:40:00.0000000 11 11
+33941 VB-1151_P19_Pl24 2026-11-16 09:36:00.0000000 13 13
+64861 TSH-1188_P23_Pl28 2026-11-16 09:32:00.0000000 18 18
+89211 CEPEC-2_P2_Pl32 2026-11-16 09:28:00.0000000 23 23
+3231 PS-1319_P6_Pl36 2026-11-16 09:24:00.0000000 3 3
+13271 CCN-51_P10_Pl40 2026-11-16 09:20:00.0000000 8 8
+37411 VB-1151_P14_Pl4 2026-11-16 09:16:00.0000000 13 13
+63401 TSH-1188_P18_Pl8 2026-11-16 09:12:00.0000000 15 15
+11981 CEPEC-2_P22_Pl12 2026-11-16 09:08:00.0000000 20 20
+3401 PS-1319_P1_Pl16 2026-11-16 09:04:00.0000000 3 3
+12351 CCN-51_P5_Pl20 2026-11-16 09:00:00.0000000 5 5
+42511 VB-1151_P9_Pl24 2026-11-16 08:56:00.0000000 10 10
+67651 TSH-1188_P13_Pl28 2026-11-16 08:52:00.0000000 15 15
+12251 CEPEC-2_P17_Pl32 2026-11-16 08:48:00.0000000 17 17
+88111 PS-1319_P21_Pl36 2026-11-16 08:44:00.0000000 22 22
+13201 CCN-51_P25_Pl40 2026-11-16 08:40:00.0000000 5 5
+41911 VB-1151_P4_Pl4 2026-11-16 08:36:00.0000000 7 7
+67561 TSH-1188_P8_Pl8 2026-11-16 08:32:00.0000000 12 12
+10291 CEPEC-2_P12_Pl12 2026-11-16 08:28:00.0000000 17 17
+88021 PS-1319_P16_Pl16 2026-11-16 08:24:00.0000000 19 19
+13111 CCN-51_P20_Pl20 2026-11-16 08:20:00.0000000 2 2
+34801 VB-1151_P24_Pl24 2026-11-16 08:16:00.0000000 7 7
+79391 TSH-1188_P3_Pl28 2026-11-16 08:12:00.0000000 9 9
+12671 CEPEC-2_P7_Pl32 2026-11-16 08:08:00.0000000 14 14
+5111 PS-1319_P11_Pl36 2026-11-16 08:04:00.0000000 19 19
+89321 CCN-51_P15_Pl40 2026-11-16 08:00:00.0000000 21 21
+33951 VB-1151_P19_Pl4 2026-11-16 07:56:00.0000000 4 4
+64871 TSH-1188_P23_Pl8 2026-11-16 07:52:00.0000000 9 9
+89221 CEPEC-2_P2_Pl12 2026-11-16 07:48:00.0000000 11 11
+3241 PS-1319_P6_Pl16 2026-11-16 07:44:00.0000000 16 16
+13281 CCN-51_P10_Pl20 2026-11-16 07:40:00.0000000 21 21
+37421 VB-1151_P14_Pl24 2026-11-16 07:36:00.0000000 1 1
+67151 TSH-1188_P18_Pl28 2026-11-16 07:32:00.0000000 6 6
+11991 CEPEC-2_P22_Pl32 2026-11-16 07:28:00.0000000 11 11
+3411 PS-1319_P1_Pl36 2026-11-16 07:24:00.0000000 13 13
+12361 CCN-51_P5_Pl40 2026-11-16 07:20:00.0000000 18 18
+42521 VB-1151_P9_Pl4 2026-11-16 07:16:00.0000000 23 23
+68511 TSH-1188_P13_Pl8 2026-11-16 07:12:00.0000000 3 3
+12261 CEPEC-2_P17_Pl12 2026-11-16 07:08:00.0000000 8 8
+88121 PS-1319_P21_Pl16 2026-11-16 07:04:00.0000000 13 13
+13211 CCN-51_P25_Pl20 2026-11-16 07:00:00.0000000 15 15
+41921 VB-1151_P4_Pl24 2026-11-16 06:56:00.0000000 20 20
+67571 TSH-1188_P8_Pl28 2026-11-16 06:52:00.0000000 3 3
+10301 CEPEC-2_P12_Pl32 2026-11-16 06:48:00.0000000 5 5
+88031 PS-1319_P16_Pl36 2026-11-16 06:44:00.0000000 10 10
+13121 CCN-51_P20_Pl40 2026-11-16 06:40:00.0000000 15 15
+34811 VB-1151_P24_Pl4 2026-11-16 06:36:00.0000000 17 17
+79401 TSH-1188_P3_Pl8 2026-11-16 06:32:00.0000000 22 22
+12681 CEPEC-2_P7_Pl12 2026-11-16 06:28:00.0000000 5 5
+5121 PS-1319_P11_Pl16 2026-11-16 06:24:00.0000000 7 7
+89331 CCN-51_P15_Pl20 2026-11-16 06:20:00.0000000 12 12
+33961 VB-1151_P19_Pl24 2026-11-16 06:16:00.0000000 17 17
+64881 TSH-1188_P23_Pl28 2026-11-16 06:12:00.0000000 19 19
+89231 CEPEC-2_P2_Pl32 2026-11-16 06:08:00.0000000 2 2
+3251 PS-1319_P6_Pl36 2026-11-16 06:04:00.0000000 7 7
+13291 CCN-51_P10_Pl40 2026-11-16 06:00:00.0000000 9 9
+37431 VB-1151_P14_Pl4 2026-11-16 05:56:00.0000000 14 14
+67161 TSH-1188_P18_Pl8 2026-11-16 05:52:00.0000000 19 19
+12001 CEPEC-2_P22_Pl12 2026-11-16 05:48:00.0000000 21 21
+3421 PS-1319_P1_Pl16 2026-11-16 05:44:00.0000000 4 4
+12371 CCN-51_P5_Pl20 2026-11-16 05:40:00.0000000 9 9
+42531 VB-1151_P9_Pl24 2026-11-16 05:36:00.0000000 11 11
+68521 TSH-1188_P13_Pl28 2026-11-16 05:32:00.0000000 16 16
+12271 CEPEC-2_P17_Pl32 2026-11-16 05:28:00.0000000 21 21
+88131 PS-1319_P21_Pl36 2026-11-16 05:24:00.0000000 1 1
+
+(100 linhas afetadas)
+Tabela ''Worktable''. Contagem de verifica‡Æo 0, leituras l¢gicas 0, leituras f¡sicas 0, leituras do servidor de p ginas 0, leituras antecipadas 0, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+Tabela ''Worktable''. Contagem de verifica‡Æo 0, leituras l¢gicas 0, leituras f¡sicas 0, leituras do servidor de p ginas 0, leituras antecipadas 0, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+Tabela ''Coletas''. Contagem de verifica‡Æo 1, leituras l¢gicas 1799, leituras f¡sicas 3, leituras do servidor de p ginas 0, leituras antecipadas 288, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+
+ Tempos de Execu‡Æo do SQL Server:
+ Tempo de CPU = 31 ms, tempo decorrido = 23 ms.
+Tempo de an lise e compila‡Æo do SQL Server: 
+   Tempo de CPU = 0 ms, tempo decorrido = 0 ms.
+
+ Tempos de Execu‡Æo do SQL Server:
+ Tempo de CPU = 0 ms, tempo decorrido = 0 ms.
+=== CRIANDO INDICES DE OTIMIZACAO ===
+=== PLANO DE EXECUCAO - DEPOIS DOS INDICES ===
+StmtText
+--------
+SELECT id_fazenda, clone,
+       COUNT(*) AS total_registros,
+       SUM(qtd_sadios) AS total_sadios,
+       SUM(qtd_vassoura) AS total_vassoura,
+       SUM(qtd_podridao) AS total_podridao
+FROM dbo.Coletas
+WHERE id_fazenda = 3
+  AND data_coleta >= '2026-09-01T00:00:00'
+GROUP BY id_fazenda, clone;
+
+(1 linhas afetadas)
+StmtText
+--------
+  |--Compute Scalar(DEFINE:([Expr1005]=CONVERT_IMPLICIT(int,[Expr1021],0)))
+       |--Hash Match(Aggregate, HASH:([CacauAppBD].[dbo].[Coletas].[clone]), RESIDUAL:([CacauAppBD].[dbo].[Coletas].[clone] = [CacauAppBD].[dbo].[Coletas].[clone]) DEFINE:([Expr1021]=COUNT(*), [Expr1006]=SUM([CacauAppBD].[dbo].[Coletas].[qtd_sadios]), [Expr1007]=SUM([CacauAppBD].[dbo].[Coletas].[qtd_vassoura]), [Expr1008]=SUM([CacauAppBD].[dbo].[Coletas].[qtd_podridao]), [CacauAppBD].[dbo].[Coletas].[id_fazenda]=ANY([CacauAppBD].[dbo].[Coletas].[id_fazenda])))
+            |--Nested Loops(Left Semi Join, OUTER REFERENCES:([CacauAppBD].[dbo].[Coletas].[id_fazenda]))
+                 |--Index Seek(OBJECT:([CacauAppBD].[dbo].[Coletas].[IX_Coletas_FazendaData]), SEEK:([CacauAppBD].[dbo].[Coletas].[id_fazenda]=(3) AND [CacauAppBD].[dbo].[Coletas].[data_coleta] >= '2026-09-01 00:00:00.0000000') ORDERED FORWARD)
+                 |--Concatenation
+                      |--Filter(WHERE:(STARTUP EXPR(user_name()=N'usr_app_ia' OR user_name()=N'usr_admin1' OR user_name()=N'usr_auditor1' OR user_name()=N'dbo')))
+                      |    |--Constant Scan
+                      |--Clustered Index Seek(OBJECT:([CacauAppBD].[sec].[Escopo_Fazenda].[PK__Escopo_F__C2C9DE776DEB3A57] AS [ef]), SEEK:([ef].[login_db]=user_name()),  WHERE:([CacauAppBD].[sec].[Escopo_Fazenda].[id_fazenda_permitida] as [ef].[id_fazenda_permitida] IS NULL OR [CacauAppBD].[sec].[Escopo_Fazenda].[id_fazenda_permitida] as [ef].[id_fazenda_permitida]=[CacauAppBD].[dbo].[Coletas].[id_fazenda]) ORDERED FORWARD)
+
+(8 linhas afetadas)
+StmtText
+--------
+SELECT TOP 100 id_coleta, plant_id, data_coleta, qtd_total_ia, qtd_total_auditada
+FROM dbo.Coletas
+WHERE id_usuario = 1
+  AND status_validacao = 'Pendente'
+ORDER BY data_coleta DESC;
+
+(1 linhas afetadas)
+StmtText
+--------
+  |--Top(TOP EXPRESSION:((100)))
+       |--Nested Loops(Left Semi Join, OUTER REFERENCES:([CacauAppBD].[dbo].[Coletas].[id_fazenda]))
+            |--Index Seek(OBJECT:([CacauAppBD].[dbo].[Coletas].[IX_Coletas_UsuarioStatusData]), SEEK:([CacauAppBD].[dbo].[Coletas].[id_usuario]=(1) AND [CacauAppBD].[dbo].[Coletas].[status_validacao]='Pendente') ORDERED FORWARD)
+            |--Concatenation
+                 |--Filter(WHERE:(STARTUP EXPR(user_name()=N'usr_app_ia' OR user_name()=N'usr_admin1' OR user_name()=N'usr_auditor1' OR user_name()=N'dbo')))
+                 |    |--Constant Scan
+                 |--Clustered Index Seek(OBJECT:([CacauAppBD].[sec].[Escopo_Fazenda].[PK__Escopo_F__C2C9DE776DEB3A57] AS [ef]), SEEK:([ef].[login_db]=user_name()),  WHERE:([CacauAppBD].[sec].[Escopo_Fazenda].[id_fazenda_permitida] as [ef].[id_fazenda_permitida] IS NULL OR [CacauAppBD].[sec].[Escopo_Fazenda].[id_fazenda_permitida] as [ef].[id_fazenda_permitida]=[CacauAppBD].[dbo].[Coletas].[id_fazenda]) ORDERED FORWARD)
+
+(7 linhas afetadas)
+=== METRICAS IO / TEMPO - DEPOIS DOS INDICES ===
+A execu‡Æo do DBCC foi conclu¡da. Se o DBCC imprimiu mensagens de erro, entre em contato com o administrador do sistema.
+Tempo de an lise e compila‡Æo do SQL Server: 
+   Tempo de CPU = 0 ms, tempo decorrido = 0 ms.
+Tempo de an lise e compila‡Æo do SQL Server: 
+   Tempo de CPU = 0 ms, tempo decorrido = 7 ms.
+id_fazenda clone total_registros total_sadios total_vassoura total_podridao
+---------- ----- --------------- ------------ -------------- --------------
+3 TSH-1188 10000 119992 20000 9999
+
+(1 linhas afetadas)
+Tabela ''Worktable''. Contagem de verifica‡Æo 0, leituras l¢gicas 0, leituras f¡sicas 0, leituras do servidor de p ginas 0, leituras antecipadas 0, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+Tabela ''Workfile''. Contagem de verifica‡Æo 0, leituras l¢gicas 0, leituras f¡sicas 0, leituras do servidor de p ginas 0, leituras antecipadas 0, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+Tabela ''Worktable''. Contagem de verifica‡Æo 0, leituras l¢gicas 0, leituras f¡sicas 0, leituras do servidor de p ginas 0, leituras antecipadas 0, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+Tabela ''Coletas''. Contagem de verifica‡Æo 1, leituras l¢gicas 68, leituras f¡sicas 0, leituras do servidor de p ginas 0, leituras antecipadas 0, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+
+ Tempos de Execu‡Æo do SQL Server:
+ Tempo de CPU = 16 ms, tempo decorrido = 8 ms.
+Tempo de an lise e compila‡Æo do SQL Server: 
+   Tempo de CPU = 0 ms, tempo decorrido = 0 ms.
+Tempo de an lise e compila‡Æo do SQL Server: 
+   Tempo de CPU = 0 ms, tempo decorrido = 4 ms.
+id_coleta plant_id data_coleta qtd_total_ia qtd_total_auditada
+--------- -------- ----------- ------------ ------------------
+100001 CCN-51_P1_Pl99 2026-11-16 20:27:19.9160506 10 10
+41891 VB-1151_P4_Pl4 2026-11-16 11:56:00.0000000 6 6
+67541 TSH-1188_P8_Pl8 2026-11-16 11:52:00.0000000 11 11
+10271 CEPEC-2_P12_Pl12 2026-11-16 11:48:00.0000000 13 13
+84771 PS-1319_P16_Pl16 2026-11-16 11:44:00.0000000 18 18
+13091 CCN-51_P20_Pl20 2026-11-16 11:40:00.0000000 23 23
+34781 VB-1151_P24_Pl24 2026-11-16 11:36:00.0000000 3 3
+77671 TSH-1188_P3_Pl28 2026-11-16 11:32:00.0000000 8 8
+12651 CEPEC-2_P7_Pl32 2026-11-16 11:28:00.0000000 13 13
+3901 PS-1319_P11_Pl36 2026-11-16 11:24:00.0000000 15 15
+89301 CCN-51_P15_Pl40 2026-11-16 11:20:00.0000000 20 20
+33931 VB-1151_P19_Pl4 2026-11-16 11:16:00.0000000 3 3
+64851 TSH-1188_P23_Pl8 2026-11-16 11:12:00.0000000 5 5
+89201 CEPEC-2_P2_Pl12 2026-11-16 11:08:00.0000000 10 10
+2031 PS-1319_P6_Pl16 2026-11-16 11:04:00.0000000 15 15
+13261 CCN-51_P10_Pl20 2026-11-16 11:00:00.0000000 17 17
+37401 VB-1151_P14_Pl24 2026-11-16 10:56:00.0000000 22 22
+63391 TSH-1188_P18_Pl28 2026-11-16 10:52:00.0000000 5 5
+11971 CEPEC-2_P22_Pl32 2026-11-16 10:48:00.0000000 7 7
+2371 PS-1319_P1_Pl36 2026-11-16 10:44:00.0000000 12 12
+12341 CCN-51_P5_Pl40 2026-11-16 10:40:00.0000000 17 17
+42501 VB-1151_P9_Pl4 2026-11-16 10:36:00.0000000 19 19
+67641 TSH-1188_P13_Pl8 2026-11-16 10:32:00.0000000 2 2
+12241 CEPEC-2_P17_Pl12 2026-11-16 10:28:00.0000000 7 7
+88101 PS-1319_P21_Pl16 2026-11-16 10:24:00.0000000 9 9
+13191 CCN-51_P25_Pl20 2026-11-16 10:20:00.0000000 14 14
+41901 VB-1151_P4_Pl24 2026-11-16 10:16:00.0000000 19 19
+67551 TSH-1188_P8_Pl28 2026-11-16 10:12:00.0000000 21 21
+10281 CEPEC-2_P12_Pl32 2026-11-16 10:08:00.0000000 4 4
+88011 PS-1319_P16_Pl36 2026-11-16 10:04:00.0000000 9 9
+13101 CCN-51_P20_Pl40 2026-11-16 10:00:00.0000000 11 11
+34791 VB-1151_P24_Pl4 2026-11-16 09:56:00.0000000 16 16
+77681 TSH-1188_P3_Pl8 2026-11-16 09:52:00.0000000 21 21
+12661 CEPEC-2_P7_Pl12 2026-11-16 09:48:00.0000000 1 1
+5101 PS-1319_P11_Pl16 2026-11-16 09:44:00.0000000 6 6
+89311 CCN-51_P15_Pl20 2026-11-16 09:40:00.0000000 11 11
+33941 VB-1151_P19_Pl24 2026-11-16 09:36:00.0000000 13 13
+64861 TSH-1188_P23_Pl28 2026-11-16 09:32:00.0000000 18 18
+89211 CEPEC-2_P2_Pl32 2026-11-16 09:28:00.0000000 23 23
+3231 PS-1319_P6_Pl36 2026-11-16 09:24:00.0000000 3 3
+13271 CCN-51_P10_Pl40 2026-11-16 09:20:00.0000000 8 8
+37411 VB-1151_P14_Pl4 2026-11-16 09:16:00.0000000 13 13
+63401 TSH-1188_P18_Pl8 2026-11-16 09:12:00.0000000 15 15
+11981 CEPEC-2_P22_Pl12 2026-11-16 09:08:00.0000000 20 20
+3401 PS-1319_P1_Pl16 2026-11-16 09:04:00.0000000 3 3
+12351 CCN-51_P5_Pl20 2026-11-16 09:00:00.0000000 5 5
+42511 VB-1151_P9_Pl24 2026-11-16 08:56:00.0000000 10 10
+67651 TSH-1188_P13_Pl28 2026-11-16 08:52:00.0000000 15 15
+12251 CEPEC-2_P17_Pl32 2026-11-16 08:48:00.0000000 17 17
+88111 PS-1319_P21_Pl36 2026-11-16 08:44:00.0000000 22 22
+13201 CCN-51_P25_Pl40 2026-11-16 08:40:00.0000000 5 5
+41911 VB-1151_P4_Pl4 2026-11-16 08:36:00.0000000 7 7
+67561 TSH-1188_P8_Pl8 2026-11-16 08:32:00.0000000 12 12
+10291 CEPEC-2_P12_Pl12 2026-11-16 08:28:00.0000000 17 17
+88021 PS-1319_P16_Pl16 2026-11-16 08:24:00.0000000 19 19
+13111 CCN-51_P20_Pl20 2026-11-16 08:20:00.0000000 2 2
+34801 VB-1151_P24_Pl24 2026-11-16 08:16:00.0000000 7 7
+79391 TSH-1188_P3_Pl28 2026-11-16 08:12:00.0000000 9 9
+12671 CEPEC-2_P7_Pl32 2026-11-16 08:08:00.0000000 14 14
+5111 PS-1319_P11_Pl36 2026-11-16 08:04:00.0000000 19 19
+89321 CCN-51_P15_Pl40 2026-11-16 08:00:00.0000000 21 21
+33951 VB-1151_P19_Pl4 2026-11-16 07:56:00.0000000 4 4
+64871 TSH-1188_P23_Pl8 2026-11-16 07:52:00.0000000 9 9
+89221 CEPEC-2_P2_Pl12 2026-11-16 07:48:00.0000000 11 11
+3241 PS-1319_P6_Pl16 2026-11-16 07:44:00.0000000 16 16
+13281 CCN-51_P10_Pl20 2026-11-16 07:40:00.0000000 21 21
+37421 VB-1151_P14_Pl24 2026-11-16 07:36:00.0000000 1 1
+67151 TSH-1188_P18_Pl28 2026-11-16 07:32:00.0000000 6 6
+11991 CEPEC-2_P22_Pl32 2026-11-16 07:28:00.0000000 11 11
+3411 PS-1319_P1_Pl36 2026-11-16 07:24:00.0000000 13 13
+12361 CCN-51_P5_Pl40 2026-11-16 07:20:00.0000000 18 18
+42521 VB-1151_P9_Pl4 2026-11-16 07:16:00.0000000 23 23
+68511 TSH-1188_P13_Pl8 2026-11-16 07:12:00.0000000 3 3
+12261 CEPEC-2_P17_Pl12 2026-11-16 07:08:00.0000000 8 8
+88121 PS-1319_P21_Pl16 2026-11-16 07:04:00.0000000 13 13
+13211 CCN-51_P25_Pl20 2026-11-16 07:00:00.0000000 15 15
+41921 VB-1151_P4_Pl24 2026-11-16 06:56:00.0000000 20 20
+67571 TSH-1188_P8_Pl28 2026-11-16 06:52:00.0000000 3 3
+10301 CEPEC-2_P12_Pl32 2026-11-16 06:48:00.0000000 5 5
+88031 PS-1319_P16_Pl36 2026-11-16 06:44:00.0000000 10 10
+13121 CCN-51_P20_Pl40 2026-11-16 06:40:00.0000000 15 15
+34811 VB-1151_P24_Pl4 2026-11-16 06:36:00.0000000 17 17
+79401 TSH-1188_P3_Pl8 2026-11-16 06:32:00.0000000 22 22
+12681 CEPEC-2_P7_Pl12 2026-11-16 06:28:00.0000000 5 5
+5121 PS-1319_P11_Pl16 2026-11-16 06:24:00.0000000 7 7
+89331 CCN-51_P15_Pl20 2026-11-16 06:20:00.0000000 12 12
+33961 VB-1151_P19_Pl24 2026-11-16 06:16:00.0000000 17 17
+64881 TSH-1188_P23_Pl28 2026-11-16 06:12:00.0000000 19 19
+89231 CEPEC-2_P2_Pl32 2026-11-16 06:08:00.0000000 2 2
+3251 PS-1319_P6_Pl36 2026-11-16 06:04:00.0000000 7 7
+13291 CCN-51_P10_Pl40 2026-11-16 06:00:00.0000000 9 9
+37431 VB-1151_P14_Pl4 2026-11-16 05:56:00.0000000 14 14
+67161 TSH-1188_P18_Pl8 2026-11-16 05:52:00.0000000 19 19
+12001 CEPEC-2_P22_Pl12 2026-11-16 05:48:00.0000000 21 21
+3421 PS-1319_P1_Pl16 2026-11-16 05:44:00.0000000 4 4
+12371 CCN-51_P5_Pl20 2026-11-16 05:40:00.0000000 9 9
+42531 VB-1151_P9_Pl24 2026-11-16 05:36:00.0000000 11 11
+68521 TSH-1188_P13_Pl28 2026-11-16 05:32:00.0000000 16 16
+12271 CEPEC-2_P17_Pl32 2026-11-16 05:28:00.0000000 21 21
+88131 PS-1319_P21_Pl36 2026-11-16 05:24:00.0000000 1 1
+
+(100 linhas afetadas)
+Tabela ''Worktable''. Contagem de verifica‡Æo 0, leituras l¢gicas 0, leituras f¡sicas 0, leituras do servidor de p ginas 0, leituras antecipadas 0, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+Tabela ''Coletas''. Contagem de verifica‡Æo 1, leituras l¢gicas 3, leituras f¡sicas 0, leituras do servidor de p ginas 0, leituras antecipadas 0, leituras antecipadas do servidor de p ginas 0, leituras l¢gicas de LOB 0, leituras f¡sicas de LOB 0, leituras de LOB no servidor de p ginas 0, leituras antecipadas de LOB 0, leituras antecipadas de LOB no servidor de p ginas 0.
+
+ Tempos de Execu‡Æo do SQL Server:
+ Tempo de CPU = 0 ms, tempo decorrido = 0 ms.
+Tempo de an lise e compila‡Æo do SQL Server: 
+   Tempo de CPU = 0 ms, tempo decorrido = 0 ms.
+
+ Tempos de Execu‡Æo do SQL Server:
+ Tempo de CPU = 0 ms, tempo decorrido = 0 ms.

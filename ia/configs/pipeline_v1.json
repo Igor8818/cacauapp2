@@ -1,0 +1,28 @@
+{
+  "version": "v1.0",
+  "commit_ref": "ad01646",
+  "description": "Configuracao inicial do pipeline de deteccao embarcada (pre-otimizacao de cabruca).",
+  "preprocessing": {
+    "resize_mode": "stretch_direct",
+    "input_size": 640,
+    "letterbox_padding": false,
+    "shadow_gamma_lut": false
+  },
+  "inference": {
+    "model_file": "detector.tflite",
+    "score_threshold": 0.55,
+    "max_results": 25,
+    "multi_scale_tiling": false
+  },
+  "postprocessing": {
+    "nms_method": "standard_iou",
+    "iou_threshold": 0.50,
+    "ios_containment_filter": false,
+    "aspect_ratio_filter": false
+  },
+  "known_limitations": [
+    "Limiar 0.55 gerava falsos negativos em frutos verdes ou sombreados sob copa densa (cabruca).",
+    "Redimensionamento direto sem Letterbox distorcia frutos alongados nas bordas.",
+    "Sem fusao IoS, caixas menores dentro de frutos grandes geravam duplicidade."
+  ]
+}

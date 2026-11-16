@@ -1,0 +1,34 @@
+{
+  "version": "v2.0",
+  "commit_ref": "7808f49",
+  "description": "Configuracao atual calibrada para aparelhos de entrada e ambiente de sub-bosque (cabruca).",
+  "changes_from_v1": [
+    "Limiar padrao ajustado de 0.55 para 0.25 (recupera frutos sob sombra sem comprometer precisao apos filtro geometrico).",
+    "Adicionado Letterbox isometrico 640x640 com preenchimento cinza 114 (preserva proporcao real do fruto).",
+    "Adicionado Gamma LUT adaptativo (gamma=0.72) quando luminancia media esta entre 15 e 92.",
+    "Substituido NMS simples por WBF multi-escala + IoU (0.42) + supressao por contencao IoS (0.65).",
+    "Integrado filtro de razao de aspecto botanica (caixaValidaParaCacau) e diagnostico fitossanitario (PodridaoParda, Moniliase, Sadio, VassouraBruxa)."
+  ],
+  "preprocessing": {
+    "resize_mode": "isometric_letterbox",
+    "input_size": 640,
+    "letterbox_padding": 114,
+    "shadow_gamma_lut": true,
+    "gamma_value": 0.72,
+    "shadow_luminance_range": [15, 92]
+  },
+  "inference": {
+    "model_file": "detector.tflite",
+    "disease_model_file": "best-doenca.pt",
+    "score_threshold": 0.25,
+    "max_results": 50,
+    "multi_scale_tiling": true
+  },
+  "postprocessing": {
+    "nms_method": "wbf_iou_ios",
+    "iou_threshold": 0.42,
+    "ios_containment_filter": true,
+    "ios_threshold": 0.65,
+    "aspect_ratio_filter": true
+  }
+}

@@ -1,0 +1,496 @@
+{
+  "database_volume": "Tabela TotalLinhas\r\n------ -----------\r\nColetas 100003\r\nFazendas 10\r\nAuditoria_Log 9\r\nUsuarios 5\r\nEscopo_Fazenda 5\r\n\r\n(5 linhas afetadas)",
+  "security": {
+    "tests_count": 19,
+    "tests_passed": 19,
+    "tests": [
+      {
+        "id": 1,
+        "papel": "Tecnico_Campo",
+        "usuario": "usr_tecnico1",
+        "objeto": "dbo.Coletas",
+        "operacao": "SELECT (com RLS)",
+        "esperado": "ALLOW",
+        "obtido": "ALLOW",
+        "detalhe": "Retornou 10000 linhas (apenas Fazenda 1)"
+      },
+      {
+        "id": 2,
+        "papel": "Tecnico_Campo",
+        "usuario": "usr_tecnico1",
+        "objeto": "dbo.Coletas",
+        "operacao": "INSERT",
+        "esperado": "ALLOW",
+        "obtido": "ALLOW",
+        "detalhe": "Insercao de coleta permitida"
+      },
+      {
+        "id": 3,
+        "papel": "Tecnico_Campo",
+        "usuario": "usr_tecnico1",
+        "objeto": "dbo.Coletas",
+        "operacao": "UPDATE",
+        "esperado": "DENY",
+        "obtido": "DENY",
+        "detalhe": "A permissÆo UPDATE foi negada no objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'."
+      },
+      {
+        "id": 4,
+        "papel": "Tecnico_Campo",
+        "usuario": "usr_tecnico1",
+        "objeto": "dbo.Coletas",
+        "operacao": "DELETE",
+        "esperado": "DENY",
+        "obtido": "DENY",
+        "detalhe": "A permissÆo DELETE foi negada no objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'."
+      },
+      {
+        "id": 5,
+        "papel": "Tecnico_Campo",
+        "usuario": "usr_tecnico1",
+        "objeto": "dbo.Usuarios",
+        "operacao": "SELECT",
+        "esperado": "DENY",
+        "obtido": "DENY",
+        "detalhe": "A permissÆo SELECT foi negada no objeto 'Usuarios', banco de dados 'CacauAppBD', esquema 'dbo'."
+      },
+      {
+        "id": 6,
+        "papel": "Tecnico_Campo",
+        "usuario": "usr_tecnico1",
+        "objeto": "dbo.Auditoria_Log",
+        "operacao": "SELECT",
+        "esperado": "DENY",
+        "obtido": "DENY",
+        "detalhe": "A permissÆo SELECT foi negada no objeto 'Auditoria_Log', banco de dados 'CacauAppBD', esquema 'dbo'."
+      },
+      {
+        "id": 7,
+        "papel": "Auditor_Agronomo",
+        "usuario": "usr_auditor1",
+        "objeto": "dbo.Usuarios.cpf",
+        "operacao": "SELECT (DDM)",
+        "esperado": "MASKED",
+        "obtido": "MASKED",
+        "detalhe": "CPF retornado: 111.***.***-01"
+      },
+      {
+        "id": 8,
+        "papel": "Auditor_Agronomo",
+        "usuario": "usr_auditor1",
+        "objeto": "dbo.Usuarios.senha_hash",
+        "operacao": "SELECT",
+        "esperado": "DENY",
+        "obtido": "DENY",
+        "detalhe": "A permissÆo SELECT foi negada na coluna 'senha_hash' do objeto 'Usuarios', banco de dados 'CacauAppBD', esquema 'dbo'."
+      },
+      {
+        "id": 9,
+        "papel": "Auditor_Agronomo",
+        "usuario": "usr_auditor1",
+        "objeto": "dbo.Coletas.status_validacao",
+        "operacao": "UPDATE",
+        "esperado": "ALLOW",
+        "obtido": "ALLOW",
+        "detalhe": "Status de validacao atualizado"
+      },
+      {
+        "id": 10,
+        "papel": "Auditor_Agronomo",
+        "usuario": "usr_auditor1",
+        "objeto": "dbo.Coletas.qtd_sadios",
+        "operacao": "UPDATE",
+        "esperado": "DENY",
+        "obtido": "DENY",
+        "detalhe": "A permissÆo UPDATE foi negada na coluna 'qtd_sadios' do objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'."
+      },
+      {
+        "id": 11,
+        "papel": "Auditor_Agronomo",
+        "usuario": "usr_auditor1",
+        "objeto": "dbo.Coletas",
+        "operacao": "DELETE",
+        "esperado": "DENY",
+        "obtido": "DENY",
+        "detalhe": "A permissÆo DELETE foi negada no objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'."
+      },
+      {
+        "id": 12,
+        "papel": "Admin_Sistema",
+        "usuario": "usr_admin1",
+        "objeto": "dbo.Usuarios.cpf",
+        "operacao": "SELECT (UNMASK)",
+        "esperado": "ALLOW",
+        "obtido": "ALLOW",
+        "detalhe": "CPF real autorizado: 111.222.333-01"
+      },
+      {
+        "id": 13,
+        "papel": "Admin_Sistema",
+        "usuario": "usr_admin1",
+        "objeto": "dbo.Auditoria_Log",
+        "operacao": "SELECT",
+        "esperado": "ALLOW",
+        "obtido": "ALLOW",
+        "detalhe": "Logs visiveis: 1"
+      },
+      {
+        "id": 14,
+        "papel": "Admin_Sistema",
+        "usuario": "usr_admin1",
+        "objeto": "dbo.Auditoria_Log",
+        "operacao": "DELETE",
+        "esperado": "DENY",
+        "obtido": "DENY",
+        "detalhe": "A permissÆo DELETE foi negada no objeto 'Auditoria_Log', banco de dados 'CacauAppBD', esquema 'dbo'."
+      },
+      {
+        "id": 15,
+        "papel": "Role_App_IA",
+        "usuario": "usr_app_ia",
+        "objeto": "dbo.vw_Coletas_Publico_IA",
+        "operacao": "SELECT",
+        "esperado": "ALLOW",
+        "obtido": "ALLOW",
+        "detalhe": "Registros agronomicos sem PII: 100001"
+      },
+      {
+        "id": 16,
+        "papel": "Role_App_IA",
+        "usuario": "usr_app_ia",
+        "objeto": "dbo.Coletas",
+        "operacao": "INSERT",
+        "esperado": "ALLOW",
+        "obtido": "ALLOW",
+        "detalhe": "IA gravou contagem inferida"
+      },
+      {
+        "id": 17,
+        "papel": "Role_App_IA",
+        "usuario": "usr_app_ia",
+        "objeto": "dbo.Usuarios",
+        "operacao": "SELECT",
+        "esperado": "DENY",
+        "obtido": "DENY",
+        "detalhe": "A permissÆo SELECT foi negada no objeto 'Usuarios', banco de dados 'CacauAppBD', esquema 'dbo'."
+      },
+      {
+        "id": 18,
+        "papel": "Role_App_IA",
+        "usuario": "usr_app_ia",
+        "objeto": "dbo.Coletas",
+        "operacao": "DELETE",
+        "esperado": "DENY",
+        "obtido": "DENY",
+        "detalhe": "A permissÆo SELECT foi negada no objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'."
+      },
+      {
+        "id": 19,
+        "papel": "Role_App_IA",
+        "usuario": "usr_app_ia",
+        "objeto": "dbo.Auditoria_Log",
+        "operacao": "SELECT",
+        "esperado": "DENY",
+        "obtido": "DENY",
+        "detalhe": "A permissÆo SELECT foi negada no objeto 'Auditoria_Log', banco de dados 'CacauAppBD', esquema 'dbo'."
+      }
+    ],
+    "rls_visible_rows": {
+      "usr_tecnico1": 10000,
+      "usr_tecnico2": 10000,
+      "usr_auditor1": 100000
+    }
+  },
+  "performance": {
+    "query1": {
+      "before": {
+        "logical_reads": 1796,
+        "cpu_ms": 15,
+        "elapsed_ms": 17
+      },
+      "after": {
+        "logical_reads": 68,
+        "cpu_ms": 15,
+        "elapsed_ms": 7
+      }
+    },
+    "query2": {
+      "before": {
+        "logical_reads": 1796,
+        "cpu_ms": 16,
+        "elapsed_ms": 15
+      },
+      "after": {
+        "logical_reads": 3,
+        "cpu_ms": 0,
+        "elapsed_ms": 0
+      }
+    }
+  },
+  "vision_and_finetuning": {
+    "checkpoint_metrics": {
+      "metrics/precision(B)": 0.9285,
+      "metrics/recall(B)": 0.88323,
+      "metrics/mAP50(B)": 0.94161,
+      "metrics/mAP50-95(B)": 0.82191,
+      "val/box_loss": 0.48319,
+      "val/cls_loss": 0.38024,
+      "val/dfl_loss": 0.73227,
+      "fitness": 0.82191
+    },
+    "epochs_trained": 339,
+    "test_cases": [
+      {
+        "image": "sample_01_cacau_vermelho.jpg",
+        "v1_tflite_count": 8,
+        "v1_latency_ms": 269.14,
+        "v2_tflite_count": 8,
+        "v2_latency_ms": 271.42,
+        "v2_gamma_lut": false,
+        "base_yolo11n_count": 1,
+        "base_yolo11n_preds": [
+          "apple(0.72)"
+        ],
+        "base_latency_ms": 107.51,
+        "ft_yolo11n_count": 7,
+        "ft_yolo11n_preds": [
+          "Sadio(0.91)",
+          "Sadio(0.91)",
+          "Sadio(0.90)",
+          "Sadio(0.89)",
+          "Sadio(0.89)",
+          "Sadio(0.89)",
+          "Sadio(0.50)"
+        ],
+        "ft_latency_ms": 65.87
+      },
+      {
+        "image": "sample_02_cacau_cacho.jpg",
+        "v1_tflite_count": 4,
+        "v1_latency_ms": 288.66,
+        "v2_tflite_count": 4,
+        "v2_latency_ms": 284.95,
+        "v2_gamma_lut": false,
+        "base_yolo11n_count": 3,
+        "base_yolo11n_preds": [
+          "apple(0.73)",
+          "banana(0.59)",
+          "banana(0.31)"
+        ],
+        "base_latency_ms": 71.95,
+        "ft_yolo11n_count": 5,
+        "ft_yolo11n_preds": [
+          "Sadio(0.92)",
+          "Sadio(0.92)",
+          "Sadio(0.91)",
+          "Sadio(0.90)",
+          "Sadio(0.28)"
+        ],
+        "ft_latency_ms": 51.15
+      },
+      {
+        "image": "sample_03_cacau_amarelo.jpg",
+        "v1_tflite_count": 7,
+        "v1_latency_ms": 272.46,
+        "v2_tflite_count": 8,
+        "v2_latency_ms": 267.51,
+        "v2_gamma_lut": false,
+        "base_yolo11n_count": 4,
+        "base_yolo11n_preds": [
+          "orange(0.84)",
+          "orange(0.83)",
+          "orange(0.79)",
+          "orange(0.52)"
+        ],
+        "base_latency_ms": 105.98,
+        "ft_yolo11n_count": 8,
+        "ft_yolo11n_preds": [
+          "Sadio(0.92)",
+          "Sadio(0.91)",
+          "Sadio(0.91)",
+          "Sadio(0.91)",
+          "Sadio(0.90)",
+          "Sadio(0.88)",
+          "Sadio(0.88)",
+          "Sadio(0.51)"
+        ],
+        "ft_latency_ms": 88.57
+      },
+      {
+        "image": "sample_04_cacau_denso.jpg",
+        "v1_tflite_count": 10,
+        "v1_latency_ms": 277.87,
+        "v2_tflite_count": 12,
+        "v2_latency_ms": 259.62,
+        "v2_gamma_lut": false,
+        "base_yolo11n_count": 1,
+        "base_yolo11n_preds": [
+          "bird(0.36)"
+        ],
+        "base_latency_ms": 61.68,
+        "ft_yolo11n_count": 15,
+        "ft_yolo11n_preds": [
+          "Sadio(0.92)",
+          "Sadio(0.90)",
+          "Sadio(0.89)",
+          "Sadio(0.88)",
+          "Sadio(0.88)",
+          "Sadio(0.88)",
+          "Sadio(0.88)",
+          "Sadio(0.88)",
+          "Sadio(0.87)",
+          "Sadio(0.87)",
+          "Sadio(0.84)",
+          "Sadio(0.79)",
+          "Sadio(0.66)",
+          "Sadio(0.46)",
+          "Sadio(0.28)"
+        ],
+        "ft_latency_ms": 50.45
+      },
+      {
+        "image": "sample_05_cabruca_sombra.jpg",
+        "v1_tflite_count": 4,
+        "v1_latency_ms": 248.39,
+        "v2_tflite_count": 4,
+        "v2_latency_ms": 255.4,
+        "v2_gamma_lut": true,
+        "base_yolo11n_count": 3,
+        "base_yolo11n_preds": [
+          "apple(0.60)",
+          "orange(0.43)",
+          "banana(0.35)"
+        ],
+        "base_latency_ms": 43.86,
+        "ft_yolo11n_count": 4,
+        "ft_yolo11n_preds": [
+          "Sadio(0.92)",
+          "Sadio(0.91)",
+          "Sadio(0.90)",
+          "Sadio(0.31)"
+        ],
+        "ft_latency_ms": 42.41
+      },
+      {
+        "image": "sample_06_controle_negativo.jpg",
+        "v1_tflite_count": 0,
+        "v1_latency_ms": 266.6,
+        "v2_tflite_count": 0,
+        "v2_latency_ms": 269.95,
+        "v2_gamma_lut": true,
+        "base_yolo11n_count": 6,
+        "base_yolo11n_preds": [
+          "surfboard(0.55)",
+          "surfboard(0.48)",
+          "surfboard(0.46)",
+          "surfboard(0.40)",
+          "surfboard(0.26)",
+          "surfboard(0.26)"
+        ],
+        "base_latency_ms": 58.8,
+        "ft_yolo11n_count": 0,
+        "ft_yolo11n_preds": [],
+        "ft_latency_ms": 46.89
+      }
+    ],
+    "avg_tflite_ms": 268.14,
+    "avg_ft_pt_ms": 57.56
+  },
+  "integration": {
+    "scenarios": [
+      [
+        "T1: IA analisa foto e salva coleta",
+        {
+          "caller_user": "usr_app_ia",
+          "role": "Role_App_IA",
+          "image": "sample_01_cacau_vermelho.jpg",
+          "detected_pods": 8,
+          "mean_confidence": 0.8347,
+          "latency_ms": 275.03,
+          "used_gamma_lut": false,
+          "db_status": "PERMITIDO",
+          "db_output": "novo_id_coleta\r\n--------------\r\n100003"
+        }
+      ],
+      [
+        "T2: IA lê estatística pública",
+        {
+          "caller_user": "usr_app_ia",
+          "role": "Role_App_IA",
+          "query_type": "estatisticas_publicas",
+          "status": "PERMITIDO",
+          "allowed": true,
+          "output": "clone coletas sadios vassoura podridao\r\n----- ------- ------ -------- --------\r\nCCN-51 20002 230012 30000 20001\r\nPS-1319 20001 229994 30001 19999\r\nVB-1151 20000 229992 30000 19999\r\nTSH-1188 20000 229990 30000 20000\r\nCEPEC-2 20000 229988 30000 20001"
+        }
+      ],
+      [
+        "T3: IA tenta ler CPF de usuários",
+        {
+          "caller_user": "usr_app_ia",
+          "role": "Role_App_IA",
+          "query_type": "ler_usuarios_pii",
+          "status": "NEGADO",
+          "allowed": false,
+          "output": "Mensagem 50000, N¡vel 16, Estado 1, Servidor DESKTOP-1PQMKM4, Linha 12\r\n A permissÆo SELECT foi negada no objeto 'Usuarios', banco de dados 'CacauAppBD', esquema 'dbo'."
+        }
+      ],
+      [
+        "T4: Técnico pede fazendas via IA",
+        {
+          "caller_user": "usr_tecnico1",
+          "role": "Tecnico_Campo",
+          "query_type": "resumo_fazendas",
+          "status": "PERMITIDO",
+          "allowed": true,
+          "output": "id_fazenda codigo_fazenda nome_fazenda municipio_uf\r\n---------- -------------- ------------ ------------\r\n1 FAZ-01 Fazenda Esperanca (Ficticia) Ilheus - BA"
+        }
+      ],
+      [
+        "T5: Técnico pede CPF via IA",
+        {
+          "caller_user": "usr_tecnico1",
+          "role": "Tecnico_Campo",
+          "query_type": "ler_usuarios_pii",
+          "status": "NEGADO",
+          "allowed": false,
+          "output": "Mensagem 50000, N¡vel 16, Estado 1, Servidor DESKTOP-1PQMKM4, Linha 12\r\n A permissÆo SELECT foi negada no objeto 'Usuarios', banco de dados 'CacauAppBD', esquema 'dbo'."
+        }
+      ],
+      [
+        "T6: Técnico pede DELETE via IA",
+        {
+          "caller_user": "usr_tecnico1",
+          "role": "Tecnico_Campo",
+          "query_type": "apagar_coleta",
+          "status": "NEGADO",
+          "allowed": false,
+          "output": "Mensagem 50000, N¡vel 16, Estado 1, Servidor DESKTOP-1PQMKM4, Linha 12\r\n A permissÆo DELETE foi negada no objeto 'Coletas', banco de dados 'CacauAppBD', esquema 'dbo'."
+        }
+      ],
+      [
+        "T7: Auditor pede usuários via IA",
+        {
+          "caller_user": "usr_auditor1",
+          "role": "Auditor_Agronomo",
+          "query_type": "ler_usuarios_pii",
+          "status": "PERMITIDO",
+          "allowed": true,
+          "output": "id_usuario nome cpf email papel\r\n---------- ---- --- ----- -----\r\n1 Tecnico Campo Um (Ficticio) 111.***.***-01 tXXX@XXXX.com Tecnico_Campo\r\n2 Tecnico Campo Dois (Ficticio) 222.***.***-02 tXXX@XXXX.com Tecnico_Campo\r\n3 Auditor Agronomo (Ficticio) 333.***.***-03 aXXX@XXXX.com Auditor_Agronomo"
+        }
+      ],
+      [
+        "T8: Ataque SQL Injection via IA",
+        {
+          "caller_user": "usr_tecnico1",
+          "role": "Tecnico_Campo",
+          "query_type": "SQLI_GUARD (estatisticas_publicas)",
+          "status": "BLOQUEADO_SQLI",
+          "allowed": false,
+          "output": "Padrao malicioso detectado no prompt: ('|\\\")\\s*or\\s+1\\s*=\\s*1"
+        }
+      ]
+    ],
+    "audit_tail_ok": true,
+    "audit_tail": "id_log quando usuario_solicitante papel_executado acao objeto_alvo status_execucao\r\n------ ------ ------------------- --------------- ---- ----------- ---------------\r\n9 2026-11-16 20:27:40 usr_tecnico1 Tecnico_Campo SQLI_BLOCKED IA_Prompt_Guard BLOQUEADO_SQLI\r\n8 2026-11-16 20:27:40 usr_auditor1 Auditor_Agronomo SELECT_PII dbo.Usuarios PERMITIDO\r\n7 2026-11-16 20:27:40 usr_tecnico1 Tecnico_Campo DELETE_ATTEMPT dbo.Coletas NEGADO\r\n6 2026-11-16 20:27:39 usr_tecnico1 Tecnico_Campo SELECT_PII dbo.Usuarios NEGADO\r\n5 2026-11-16 20:27:39 usr_tecnico1 Tecnico_Campo SELECT_RLS dbo.Fazendas PERMITIDO\r\n4 2026-11-16 20:27:39 usr_app_ia Role_App_IA SELECT_PII dbo.Usuarios NEGADO\r\n3 2026-11-16 20:27:38 usr_app_ia Role_App_IA SELECT_VIEW dbo.vw_Coletas_Publico_IA PERMITIDO\r\n2 2026-11-16 20:27:38 usr_app_ia Role_App_IA IA_INFER_INSERT dbo.Coletas PERMITIDO\r\n1 2026-11-16 20:27:18 dbo Admin_Setup SEED_VOLUME dbo.Coletas PERMITIDO"
+  }
+}

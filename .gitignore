@@ -14,9 +14,22 @@
 .cxx
 local.properties
 
+# --- Segredos, ambientes e chaves (NUNCA subir ao GitHub) ---
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.venv/
+venv/
+
 # --- Modelos de IA (proprietarios CEPEC - NUNCA subir ao GitHub) ---
 *.tflite
 **/*.tflite
+*.pt
+**/*.pt
+*.onnx
+**/*.onnx
 modelopronto/
 /modelopronto/
 modeloia/
