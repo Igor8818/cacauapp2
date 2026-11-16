@@ -1,8 +1,9 @@
-# ENTREGA DE PROJETO (17/11/2026) — IA & SEGURANÇA E OTIMIZAÇÃO DE BD
-**Projeto:** CacauApp2 — Contagem e Monitoramento de Cacau Offline com Banco Seguro  
+# CACAUAPP2 — RELATÓRIO RESUMIDO DE ENTREGA (17/11/2026)
+
+**Projeto:** CacauApp2 — Contagem de Cacau Offline com Banco de Dados Seguro  
 **Repositório:** https://github.com/Igor8818/cacauapp2  
 **Disciplinas:** Inteligência Artificial + Segurança e Otimização de Banco de Dados  
-**Regras atendidas:** Sem SaaS/site/aplicação web; dados 100% fictícios; chaves e modelos `.tflite`/`.pt` fora do Git.
+**Diretrizes atendidas:** Funciona offline (sem site ou sistema web), dados 100% fictícios e arquivos sensíveis protegidos fora do repositório.
 
 ---
 
@@ -18,116 +19,111 @@
 
 ---
 
-## 1. PARTE COMUM (Todos)
+## 1. O que o Aplicativo Faz e Que Problema Resolve
 
-### 1.1 Relatório de Andamento
+### Que problema existe hoje no campo?
+Na pesquisa e no acompanhamento de fazendas de cacau (CEPEC/CEPLAC), os técnicos precisam contar frutos e identificar doenças diretamente nos pés de cacau em áreas rurais onde normalmente não há sinal de internet. Fazer essa contagem no olho e anotar tudo em papel toma muito tempo, gera erros na digitação e dificulta o controle centralizado das fazendas.
 
-**O que já funciona**
-
-- **App Android (`CacauApp2`)**: câmera ao vivo offline com modelo YOLO `.tflite`, Tela de Revisão para o técnico corrigir frutos, Modo Rota (planilha CEPLAC), exportação CSV pt-BR e testes unitários passando (`gradlew testDebugUnitTest`).
-- **Banco de Dados (`CacauAppBD` no SQL Server)**: tabelas criadas e populadas com **100.003 coletas** fictícias, 4 papéis (`GRANT`/`DENY`), mascaramento de CPF/E-mail (DDM), senha com hash SHA-256, filtro por fazenda (RLS) e 2 índices que reduzem leituras em até **99,8%**.
-- **IA + Integração Segura (`ia/`)**: ponte CLI (`cacau_ia_db_bridge.py`) rodando a detecção, respeitando as permissões do usuário no SQL Server e gravando cada acesso na tabela `dbo.Auditoria_Log`.
-
-**O que falta**
-
-- Conectar o botão de envio direto do celular ao SQL Server via rede local segura (hoje a carga passa por CSV e pela ponte CLI local).
-- Coletar mais fotos rotuladas em campo de *Vassoura-de-Bruxa* e *Monilíase* na sombra densa da cabruca.
-- Gravar vídeo curto demonstrativo no celular físico junto aos testes do banco.
-
-**O que mudou na arquitetura desde 27/10/2026**
-
-- Em **27/10**, o banco existia apenas como um rascunho de 10 linhas de SQL no PDF; agora o **SQL Server (`CacauAppBD`) está rodando de verdade** com **100.003 linhas**, papéis `GRANT`/`DENY`, proteção de dados (DDM, SHA-256 e RLS) e planos de execução medidos antes e depois dos índices.
-- Foi criada a ponte local **`ia/cacau_ia_db_bridge.py`** (sem site/SaaS) para a IA consultar e inserir no banco usando o perfil do solicitante e registrando tudo em `dbo.Auditoria_Log`.
-- Foram formalizados o versionamento dos parâmetros da IA (`v1` → `v2`) e os testes comparativos entre o modelo base e o modelo treinado para cacau.
-
-**Principais Riscos**
-
-- Sombra muito escura debaixo das árvores esconder frutos verdes pequenos (mitigado pelo Gamma LUT e pela Tela de Revisão manual).
-- Tentativa de exclusão ou consulta indevida de dados pessoais (mitigado por `DENY`, RLS e DDM diretamente no SQL Server).
-- Subida acidental de senhas ou modelos `.tflite`/`.pt` no Git (mitigado por `.gitignore` e `.env.example`).
-
-### 1.2 Contribuição Individual — Igor Sena Hagge
-
-> Desenvolvi e organizei a base do aplicativo Android `CacauApp2` (detecção TFLite com Letterbox, compensação de sombra e revisão manual), implementei todos os scripts reais de criação, volume (100.000+ linhas), segurança (`GRANT`/`DENY`, DDM, SHA-256, RLS) e otimização por índices no SQL Server (`sql/`), e construí a ponte CLI de integração IA ↔ Banco com trilha de auditoria (`ia/`).
+### O que o CacauApp2 faz?
+O **CacauApp2** é um aplicativo de celular que usa a câmera com Inteligência Artificial funcionando **100% sem internet** para localizar e contar os frutos de cacau na hora. Logo após a foto, o técnico pode revisar a imagem e corrigir qualquer marcação na tela, seguir o roteiro de plantas da fazenda e gerar os dados prontos para envio a um banco de dados seguro e rápido.
 
 ---
 
-## 2. PARTE DE IA (Visão Computacional — Aprovada pela Disciplina)
+## 2. Resumo do Andamento (Parte Comum)
 
-*(Projeto aprovado pela docente utilizando **Visão Computacional embarcada offline** como componente de IA, sem chatbot/site.)*
+- **O que já funciona:**
+  - Aplicativo Android offline com câmera, contagem automática, tela de revisão para o técnico corrigir, roteiro de plantas da fazenda e exportação em planilha.
+  - Banco de dados real funcionando com **100.003 coletas fictícias**, 4 níveis diferentes de permissão, proteção de dados pessoais, buscas aceleradas e histórico automático de auditoria.
+  - Integração entre a Inteligência Artificial e o banco de dados respeitando as permissões de cada usuário e registrando tudo na auditoria.
+- **O que ainda falta:**
+  - Conectar o botão de envio direto do celular para o servidor na rede local (hoje os testes de integração rodam pelo computador).
+  - Reunir mais fotos de doenças mais raras em áreas de sombra fechada.
+  - Gravar o vídeo curto de demonstração final mostrando o celular e o banco juntos.
+- **O que evoluiu desde a entrega de 27/10:**
+  - Em 27/10 o banco de dados era apenas uma ideia no papel; agora está rodando de verdade com mais de 100 mil registros, controle rigoroso de quem pode acessar cada dado, buscas muito mais rápidas e testes reais comparando a Inteligência Artificial antes e depois do treinamento.
+- **Principais riscos e como foram controlados:**
+  - *Sombra forte nas árvores esconder frutos verdes*: reduzido com clareamento automático na foto e conferência manual do técnico antes de salvar.
+  - *Acesso indevido a CPFs ou tentativa de apagar registros*: bloqueado diretamente pelas regras do banco de dados.
 
-### 2.1 Fluxo de Ponta a Ponta em Execução
+---
 
-Foto do cacaueiro → Ajuste Letterbox (`640x640`) + realce de sombra (Gamma LUT) → Modelo YOLO offline (`detector.tflite` / `best-doenca.pt`) → Filtro de caixas duplicadas → Revisão do técnico → Gravação controlada no SQL Server + Auditoria.
+## 3. Parte de Inteligência Artificial (Visão Computacional)
 
-![Fluxo de Visão Computacional Rodando em 6 Casos de Teste](evidencias/06_visao_deteccoes_e_latencia.png)
+*(Projeto aprovado pela disciplina utilizando Visão Computacional embarcada direto no celular, sem necessidade de site ou chatbot.)*
 
-### 2.2 Configurações Versionadas (`v1` → `v2`)
+### Como funciona do início ao fim
+Foto da planta no campo → Ajuste de tamanho e brilho para fotos escuras → Identificação dos frutos no próprio celular sem internet → Remoção de contagens repetidas → Conferência do técnico → Gravação controlada no banco com registro de auditoria.
 
-- **Versão 1.0 (`ia/configs/pipeline_v1.json`)**: esticava a imagem sem manter proporção e usava confiança mínima alta (`0.55`), perdendo frutos pequenos ou na sombra.
-- **Versão 2.0 Atual (`ia/configs/pipeline_v2.json`)**: usa **Letterbox `640x640`**, reduz o limiar para **`0.25`**, aplica **Gamma LUT `0.72`** em fotos escuras e remove caixas duplicadas com **IoS (`0.65`)** (recuperando frutos extras em cachos sem gerar falsos positivos).
+![Fluxo da Inteligência Artificial em 6 Fotos de Teste](evidencias/06_visao_deteccoes_e_latencia.png)
 
-### 2.3 Primeiros Casos de Teste (6 Casos Reais)
+### Evolução das configurações (Versão 1 → Versão 2)
+- **Versão 1:** distorcia a proporção da foto e exigia confiança muito alta para marcar um fruto, deixando passar frutos pequenos ou na sombra.
+- **Versão 2 (atual):** mantém a proporção original da imagem, aplica clareamento automático em fotos escuras na mata e separa frutos próximos no cacho sem contar o mesmo fruto duas vezes.
 
-| Caso | Imagem de Entrada | Resultado Esperado | Resultado Obtido | Status |
+### Primeiros Casos de Teste (6 Fotos Reais)
+
+| Caso | Cenário da Foto | O que era esperado | Resultado obtido | Situação |
 |---|---|---|---|---|
-| **CT-01** | Cacau Vermelho | Detectar cacho principal (7–8 frutos) | **7** frutos `Sadio` (FT) / **8** no TFLite v2 | OK |
-| **CT-02** | Cacho Iluminado | Identificar 4–5 frutos no tronco | **5** frutos `Sadio` (FT) / **4** no TFLite v2 | OK |
-| **CT-03** | Cacau Amarelo/Roxo | Superar versão v1 (7) em cacho misto | v1: 7 → v2: **8** frutos (`Sadio`) | OK |
-| **CT-04** | Cacho Denso | Separar vários frutos próximos (>10) | v1: 10 → v2: **12** no TFLite / **15** no FT | OK |
-| **CT-05** | Sombra (Cabruca) | Ativar realce de sombra e contar frutos | Gamma LUT ativo: **4** frutos detectados | OK |
-| **CT-06** | Só Folhas (Negativo) | Zero falsos positivos sem frutos | **0** frutos no TFLite v2 e **0** no FT | OK |
+| Caso 1 | Cacau vermelho | Contar o cacho principal (7 a 8 frutos) | 7 a 8 frutos corretos | Aprovado |
+| Caso 2 | Cacho bem iluminado | Identificar 4 a 5 frutos no tronco | 4 a 5 frutos corretos | Aprovado |
+| Caso 3 | Cacau amarelo e roxo | Melhorar em relação à versão 1 (7 frutos) | Subiu de 7 para 8 frutos | Aprovado |
+| Caso 4 | Cacho muito cheio | Separar vários frutos próximos (mais de 10) | Separou de 12 a 15 frutos | Aprovado |
+| Caso 5 | Sombra fechada | Clarear a foto e localizar os frutos | Clareamento ativo e 4 frutos contados | Aprovado |
+| Caso 6 | Só folhas (sem fruto) | Não inventar frutos falsos | Zero erros | Aprovado |
 
-### 2.4 Experimento de Fine-Tuning, Custo e Latência
+### Resultado do Treinamento, Rapidez e Custo
+- **Modelo comum vs. Modelo treinado:** Um modelo comum de fábrica não conhece cacau — nas 5 fotos de cacau não acertou nenhum fruto (confundiu com maçã, laranja e banana) e ainda errou 6 vezes na foto só de folhas. Após o treinamento específico para cacau (339 rodadas para reconhecer fruto sadio e 3 doenças: podridão-parda, monilíase e vassoura-de-bruxa), o modelo atingiu **94,2% de acerto**, identificando **39 frutos corretos** nas fotos de teste e **0 erros** nas folhas.
+- **Velocidade e Custo:** Leva em média **0,06 segundo** por foto no computador e **0,27 segundo** no formato leve de celular. Como roda tudo dentro do aparelho sem servidor pago, o **custo é R$ 0,00** para cada 1.000 análises.
 
-- **Treino vs Modelo Base**: Partindo do modelo genérico `yolo11n.pt` (COCO), foi feito fine-tuning por **339 épocas** (`best-doenca.pt`) para 4 classes (`Sadio`, `PodridaoParda`, `Moniliase`, `VassouraBruxa`), atingindo **94,2% de mAP@50** e **92,9% de precisão**.
-- **Comparação direta**: Nas 5 fotos de cacau, o modelo base sem treino acertou **0 frutos de cacau** (confundiu com maçã, laranja e banana) e errou **6 vezes** na foto só com folhas (`surfboard`); o modelo treinado detectou **39 frutos corretos** e teve **0 erros** nas folhas.
-- **Latência e Custo Medidos**: Média em CPU de **57,6 ms/foto** (`best-doenca.pt`) e **268,1 ms/foto** (`detector.tflite`). **Custo: R$ 0,00 por 1.000 análises** (roda 100% offline no aparelho).
-
-![Fine-Tuning: Evolução do Treino e Comparação com o Modelo Base](evidencias/05_finetuning_curvas_e_comparativo.png)
+![Comparativo do Treinamento da IA](evidencias/05_finetuning_curvas_e_comparativo.png)
 
 ---
 
-## 3. PARTE DE SEGURANÇA E OTIMIZAÇÃO DE BD (SQL Server)
+## 4. Segurança e Melhoria de Desempenho no Banco de Dados
 
-### 3.1 Papéis, `GRANT` / `DENY` e Proteção de Dados Sensíveis
+### Quem pode acessar o quê (19 de 19 testes aprovados)
+O banco foi dividido em 4 perfis bem definidos para que ninguém acesse mais do que precisa:
 
-- **4 papéis criados e testados (`19/19` testes aprovados)** em `sql/03_roles_grant_deny_rls.sql` e `sql/04_security_verification.sql`: `Tecnico_Campo`, `Auditor_Agronomo`, `Admin_Sistema` e `Role_App_IA`.
-- **Proteção de Dados Sensíveis funcionando**:
-  - **Mascaramento (DDM)** no CPF e E-mail: o Auditor vê **`111.***.***-01`**; só o Admin (`UNMASK`) vê o CPF real.
-  - **Hash SHA-256** (`HASHBYTES`) na coluna `senha_hash`, que possui `DENY SELECT` para todos os perfis comuns.
-  - **Row-Level Security (RLS)**: `usr_tecnico1` vê apenas os **10.000** registros da Fazenda 1 (`FAZ-01`) e `usr_tecnico2` vê apenas os **10.000** da Fazenda 2 (`FAZ-02`), enquanto o Auditor vê todas as **10 fazendas**.
+1. **Técnico de Campo:** pode registrar coletas e ver apenas as informações da fazenda onde trabalha. É proibido de ver dados pessoais de usuários e não pode apagar nada.
+2. **Auditor Agrônomo:** acompanha todas as fazendas para fiscalização, porém não vê senhas e enxerga CPF e e-mail parcialmente escondidos.
+3. **Sistema de Inteligência Artificial:** só tem permissão para gravar contagens novas e consultar dados públicos sem informações pessoais.
+4. **Administrador do Sistema:** único autorizado a visualizar dados completos e acompanhar todo o histórico de auditoria.
 
-![Matriz Simplificada ALLOW e DENY no SQL Server](evidencias/01_matriz_allow_deny.png)
+### Como os dados pessoais e as fazendas são protegidos
+- **Mascaramento de dados:** CPF e e-mail aparecem ocultos para perfis comuns (por exemplo, o auditor vê apenas `111.***.***-01`).
+- **Senhas protegidas:** toda senha é guardada de forma embaralhada e irreversível, com bloqueio total até para leitura direta.
+- **Isolamento por fazenda:** uma regra automática garante que cada técnico só veja os registros da sua própria fazenda (nos testes, o Técnico 1 vê somente os **10.000 registros** da Fazenda 1, o Técnico 2 vê somente os **10.000** da Fazenda 2, enquanto o Auditor vê todas as **10 fazendas**).
 
-![Proteção DDM, SHA-256 e RLS na Prática](evidencias/02_protecao_ddm_rls.png)
+![Mapa Simples de Permissões Permitido e Negado](evidencias/01_matriz_allow_deny.png)
 
-### 3.2 Volume da Base e Otimização de 2 Consultas Lentas
+![Proteção de CPF e Separação por Fazenda](evidencias/02_protecao_ddm_rls.png)
 
-- **Volume real confirmado no banco**: **`100.003` linhas** em `Coletas`, **`10`** em `Fazendas`, **`5`** em `Usuarios` e **`9`** registros em `Auditoria_Log`.
-- **Consulta 1 (Soma de frutos por fazenda e data)**: Sem índice fazia *Clustered Index Scan* (**1.796 leituras lógicas**, `17 ms`). Com `IX_Coletas_FazendaData` passou a fazer *Index Seek* (**68 leituras**, `7 ms` — **96,2% menos páginas lidas**).
-- **Consulta 2 (`TOP 100` pendentes ordenadas por data)**: Sem índice fazia *Scan + Sort* (**1.796 leituras lógicas**, `15 ms`). Com `IX_Coletas_UsuarioStatusData` (incluindo `id_fazenda` no `INCLUDE`) eliminou o `Sort` e caiu para **3 leituras lógicas** e **`< 1 ms`** (**99,8% menos páginas lidas**).
+### Volume de Dados e Melhoria de Velocidade (2 Consultas Lentas Otimizadas)
+O banco foi preenchido com **100.003 coletas**, **10 fazendas**, **5 usuários** e **9 registros de auditoria**, e duas consultas lentas foram otimizadas com criação de índices:
 
-![Otimização Antes vs Depois dos Índices](evidencias/03_otimizacao_indices_bd.png)
+- **Consulta 1 (Soma de frutos por fazenda e data):** Antes, o banco precisava ler toda a tabela (**1.796 páginas**, em 17 milissegundos). Depois da organização com índice, passou a ler apenas **68 páginas** em 7 milissegundos — **96,2% menos leitura**.
+- **Consulta 2 (100 coletas pendentes mais recentes de um técnico):** Antes, precisava ler **1.796 páginas** e ordenar tudo na hora (15 milissegundos). Com o índice específico, passou para **apenas 3 páginas** em **menos de 1 milissegundo** — **99,8% mais leve**.
 
-![Planos de Execução Visuais Antes e Depois](evidencias/04_planos_execucao_sql.png)
+![Comparativo de Velocidade Antes e Depois dos Índices](evidencias/03_otimizacao_indices_bd.png)
+
+![Caminho de Busca do Banco Antes e Depois](evidencias/04_planos_execucao_sql.png)
 
 ---
 
-## 4. PARTE DE INTEGRAÇÃO (IA + Permissões + Auditoria)
+## 5. Integração entre IA, Segurança e Auditoria
 
-- **IA respeitando permissões**: A ponte `ia/cacau_ia_db_bridge.py` roda sempre sob `EXECUTE AS USER` do perfil solicitante. Quando a IA ou um Técnico tentam ler CPFs (`dbo.Usuarios`), apagar registros (`DELETE`) ou enviar SQL Injection (`' OR 1=1; DROP TABLE...`), o acesso é **negado diretamente** e o dado nunca é exposto.
-- **Auditoria registrada**: Toda ação dispara um registro automático em `dbo.Auditoria_Log` com **quem pediu, o que consultou, quando e se foi permitido ou negado**.
+- **IA respeita as regras de quem pediu:** toda consulta ou gravação feita pela Inteligência Artificial assume exatamente o perfil de quem solicitou. Se um técnico ou a própria IA tentar puxar CPFs, apagar registros ou enviar comando malicioso disfarçado no texto, o sistema **bloqueia na hora** antes mesmo de tocar nos dados.
+- **Tudo fica registrado:** qualquer tentativa (permitida ou bloqueada) gera automaticamente uma linha no histórico de auditoria com quem pediu, o perfil usado, o que tentou fazer, data/hora e o resultado.
 
-![Testes de Integração IA e Auditoria no Banco](evidencias/07_integracao_ia_auditoria.png)
+![Resultados da Integração entre IA e Auditoria](evidencias/07_integracao_ia_auditoria.png)
 
-| ID | Data / Hora | Quem Pediu | Papel | O que Consultou / Tentou | Resultado |
+| Nº | Data | Quem Pediu | Perfil | Ação Tentada | Resultado |
 |---|---|---|---|---|---|
-| 9 | 2026-11-16 | `usr_tecnico1` | `Tecnico_Campo` | Prompt com SQL Injection (`OR 1=1; DROP...`) | `BLOQUEADO_SQLI` |
-| 8 | 2026-11-16 | `usr_auditor1` | `Auditor_Agronomo` | Consulta `dbo.Usuarios` (CPF mascarado DDM) | `PERMITIDO` |
-| 7 | 2026-11-16 | `usr_tecnico1` | `Tecnico_Campo` | Tentativa de `DELETE` em `dbo.Coletas` | `NEGADO` |
-| 6 | 2026-11-16 | `usr_tecnico1` | `Tecnico_Campo` | Tentativa de ler CPF em `dbo.Usuarios` | `NEGADO` |
-| 5 | 2026-11-16 | `usr_tecnico1` | `Tecnico_Campo` | Listar fazendas (RLS retorna só `FAZ-01`) | `PERMITIDO` |
-| 4 | 2026-11-16 | `usr_app_ia` | `Role_App_IA` | IA tentando ler `dbo.Usuarios` | `NEGADO` |
-| 3 | 2026-11-16 | `usr_app_ia` | `Role_App_IA` | IA lendo view pública sem dados pessoais | `PERMITIDO` |
-| 2 | 2026-11-16 | `usr_app_ia` | `Role_App_IA` | IA salvando contagem de foto (`id_coleta=100003`) | `PERMITIDO` |
+| 9 | 16/11/2026 | Técnico 1 | Técnico de Campo | Tentativa de comando malicioso no texto | Bloqueado por segurança |
+| 8 | 16/11/2026 | Auditor 1 | Auditor Agrônomo | Consulta de usuários com CPF mascarado | Permitido |
+| 7 | 16/11/2026 | Técnico 1 | Técnico de Campo | Tentativa de apagar coleta | Negado |
+| 6 | 16/11/2026 | Técnico 1 | Técnico de Campo | Tentativa de ler lista de CPFs | Negado |
+| 5 | 16/11/2026 | Técnico 1 | Técnico de Campo | Listar fazendas (vê apenas Fazenda 1) | Permitido |
+| 4 | 16/11/2026 | Sistema IA | Papel da IA | Tentativa de acessar dados pessoais | Negado |
+| 3 | 16/11/2026 | Sistema IA | Papel da IA | Leitura de visão pública sem dados pessoais | Permitido |
+| 2 | 16/11/2026 | Sistema IA | Papel da IA | Gravação de nova contagem de foto | Permitido |
