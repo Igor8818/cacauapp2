@@ -45,7 +45,7 @@ import kotlin.math.roundToInt
 
 /**
  * Modo Rota (FieldBook) simplificado (Progressive Disclosure):
- * - Permite iniciar com Planilha Excel (.xlsx) / CSV, Rota CEPLAC Embutida (TC-1801) ou Criação Rápida sem arquivo;
+ * - Permite iniciar com Planilha Excel (.xlsx) / CSV ou Criação Rápida sem arquivo;
  * - Card principal grande e limpo com progresso (`Planta X de Y` e setas grandes `◀ Anterior` / `Próxima ▶`),
  *   Clone em destaque, Bloco · Parcela · Planta e Badge de Histórico legível em português;
  * - Preserva a contagem de frutos da câmera ao vivo na tela pós-foto;

@@ -243,15 +243,15 @@
       {
         "image": "sample_01_cacau_vermelho.jpg",
         "v1_tflite_count": 8,
-        "v1_latency_ms": 269.14,
+        "v1_latency_ms": 218.99,
         "v2_tflite_count": 8,
-        "v2_latency_ms": 271.42,
+        "v2_latency_ms": 229.98,
         "v2_gamma_lut": false,
         "base_yolo11n_count": 1,
         "base_yolo11n_preds": [
           "apple(0.72)"
         ],
-        "base_latency_ms": 107.51,
+        "base_latency_ms": 41.41,
         "ft_yolo11n_count": 7,
         "ft_yolo11n_preds": [
           "Sadio(0.91)",
@@ -262,14 +262,14 @@
           "Sadio(0.89)",
           "Sadio(0.50)"
         ],
-        "ft_latency_ms": 65.87
+        "ft_latency_ms": 33.69
       },
       {
         "image": "sample_02_cacau_cacho.jpg",
         "v1_tflite_count": 4,
-        "v1_latency_ms": 288.66,
+        "v1_latency_ms": 213.36,
         "v2_tflite_count": 4,
-        "v2_latency_ms": 284.95,
+        "v2_latency_ms": 214.08,
         "v2_gamma_lut": false,
         "base_yolo11n_count": 3,
         "base_yolo11n_preds": [
@@ -277,7 +277,7 @@
           "banana(0.59)",
           "banana(0.31)"
         ],
-        "base_latency_ms": 71.95,
+        "base_latency_ms": 56.38,
         "ft_yolo11n_count": 5,
         "ft_yolo11n_preds": [
           "Sadio(0.92)",
@@ -286,14 +286,14 @@
           "Sadio(0.90)",
           "Sadio(0.28)"
         ],
-        "ft_latency_ms": 51.15
+        "ft_latency_ms": 36.41
       },
       {
         "image": "sample_03_cacau_amarelo.jpg",
         "v1_tflite_count": 7,
-        "v1_latency_ms": 272.46,
+        "v1_latency_ms": 214.13,
         "v2_tflite_count": 8,
-        "v2_latency_ms": 267.51,
+        "v2_latency_ms": 210.73,
         "v2_gamma_lut": false,
         "base_yolo11n_count": 4,
         "base_yolo11n_preds": [
@@ -302,7 +302,7 @@
           "orange(0.79)",
           "orange(0.52)"
         ],
-        "base_latency_ms": 105.98,
+        "base_latency_ms": 56.14,
         "ft_yolo11n_count": 8,
         "ft_yolo11n_preds": [
           "Sadio(0.92)",
@@ -314,20 +314,20 @@
           "Sadio(0.88)",
           "Sadio(0.51)"
         ],
-        "ft_latency_ms": 88.57
+        "ft_latency_ms": 39.76
       },
       {
         "image": "sample_04_cacau_denso.jpg",
         "v1_tflite_count": 10,
-        "v1_latency_ms": 277.87,
+        "v1_latency_ms": 215.43,
         "v2_tflite_count": 12,
-        "v2_latency_ms": 259.62,
+        "v2_latency_ms": 206.91,
         "v2_gamma_lut": false,
         "base_yolo11n_count": 1,
         "base_yolo11n_preds": [
           "bird(0.36)"
         ],
-        "base_latency_ms": 61.68,
+        "base_latency_ms": 35.95,
         "ft_yolo11n_count": 15,
         "ft_yolo11n_preds": [
           "Sadio(0.92)",
@@ -346,14 +346,14 @@
           "Sadio(0.46)",
           "Sadio(0.28)"
         ],
-        "ft_latency_ms": 50.45
+        "ft_latency_ms": 34.76
       },
       {
         "image": "sample_05_cabruca_sombra.jpg",
         "v1_tflite_count": 4,
-        "v1_latency_ms": 248.39,
+        "v1_latency_ms": 212.29,
         "v2_tflite_count": 4,
-        "v2_latency_ms": 255.4,
+        "v2_latency_ms": 209.5,
         "v2_gamma_lut": true,
         "base_yolo11n_count": 3,
         "base_yolo11n_preds": [
@@ -361,7 +361,7 @@
           "orange(0.43)",
           "banana(0.35)"
         ],
-        "base_latency_ms": 43.86,
+        "base_latency_ms": 35.57,
         "ft_yolo11n_count": 4,
         "ft_yolo11n_preds": [
           "Sadio(0.92)",
@@ -369,14 +369,14 @@
           "Sadio(0.90)",
           "Sadio(0.31)"
         ],
-        "ft_latency_ms": 42.41
+        "ft_latency_ms": 36.94
       },
       {
         "image": "sample_06_controle_negativo.jpg",
         "v1_tflite_count": 0,
-        "v1_latency_ms": 266.6,
+        "v1_latency_ms": 208.48,
         "v2_tflite_count": 0,
-        "v2_latency_ms": 269.95,
+        "v2_latency_ms": 216.74,
         "v2_gamma_lut": true,
         "base_yolo11n_count": 6,
         "base_yolo11n_preds": [
@@ -387,14 +387,14 @@
           "surfboard(0.26)",
           "surfboard(0.26)"
         ],
-        "base_latency_ms": 58.8,
+        "base_latency_ms": 39.46,
         "ft_yolo11n_count": 0,
         "ft_yolo11n_preds": [],
-        "ft_latency_ms": 46.89
+        "ft_latency_ms": 37.53
       }
     ],
-    "avg_tflite_ms": 268.14,
-    "avg_ft_pt_ms": 57.56
+    "avg_tflite_ms": 214.66,
+    "avg_ft_pt_ms": 36.51
   },
   "integration": {
     "scenarios": [
@@ -406,7 +406,7 @@
           "image": "sample_01_cacau_vermelho.jpg",
           "detected_pods": 8,
           "mean_confidence": 0.8347,
-          "latency_ms": 275.03,
+          "latency_ms": 217.06,
           "used_gamma_lut": false,
           "db_status": "PERMITIDO",
           "db_output": "novo_id_coleta\r\n--------------\r\n100003"
@@ -420,7 +420,7 @@
           "query_type": "estatisticas_publicas",
           "status": "PERMITIDO",
           "allowed": true,
-          "output": "clone coletas sadios vassoura podridao\r\n----- ------- ------ -------- --------\r\nCCN-51 20002 230012 30000 20001\r\nPS-1319 20001 229994 30001 19999\r\nVB-1151 20000 229992 30000 19999\r\nTSH-1188 20000 229990 30000 20000\r\nCEPEC-2 20000 229988 30000 20001"
+          "output": "clone coletas sadios vassoura podridao\r\n----- ------- ------ -------- --------\r\nCCN-51 20002 230012 30000 20001\r\nPS-1319 20001 229994 30001 19999\r\nVB-1151 20000 229992 30000 19999\r\nTSH-1188 20000 229990 30000 20000\r\nCA-02 20000 229988 30000 20001"
         }
       ],
       [
@@ -491,6 +491,6 @@
       ]
     ],
     "audit_tail_ok": true,
-    "audit_tail": "id_log quando usuario_solicitante papel_executado acao objeto_alvo status_execucao\r\n------ ------ ------------------- --------------- ---- ----------- ---------------\r\n9 2026-11-16 20:27:40 usr_tecnico1 Tecnico_Campo SQLI_BLOCKED IA_Prompt_Guard BLOQUEADO_SQLI\r\n8 2026-11-16 20:27:40 usr_auditor1 Auditor_Agronomo SELECT_PII dbo.Usuarios PERMITIDO\r\n7 2026-11-16 20:27:40 usr_tecnico1 Tecnico_Campo DELETE_ATTEMPT dbo.Coletas NEGADO\r\n6 2026-11-16 20:27:39 usr_tecnico1 Tecnico_Campo SELECT_PII dbo.Usuarios NEGADO\r\n5 2026-11-16 20:27:39 usr_tecnico1 Tecnico_Campo SELECT_RLS dbo.Fazendas PERMITIDO\r\n4 2026-11-16 20:27:39 usr_app_ia Role_App_IA SELECT_PII dbo.Usuarios NEGADO\r\n3 2026-11-16 20:27:38 usr_app_ia Role_App_IA SELECT_VIEW dbo.vw_Coletas_Publico_IA PERMITIDO\r\n2 2026-11-16 20:27:38 usr_app_ia Role_App_IA IA_INFER_INSERT dbo.Coletas PERMITIDO\r\n1 2026-11-16 20:27:18 dbo Admin_Setup SEED_VOLUME dbo.Coletas PERMITIDO"
+    "audit_tail": "id_log quando usuario_solicitante papel_executado acao objeto_alvo status_execucao\r\n------ ------ ------------------- --------------- ---- ----------- ---------------\r\n9 2026-11-17 13:51:56 usr_tecnico1 Tecnico_Campo SQLI_BLOCKED IA_Prompt_Guard BLOQUEADO_SQLI\r\n8 2026-11-17 13:51:56 usr_auditor1 Auditor_Agronomo SELECT_PII dbo.Usuarios PERMITIDO\r\n7 2026-11-17 13:51:55 usr_tecnico1 Tecnico_Campo DELETE_ATTEMPT dbo.Coletas NEGADO\r\n6 2026-11-17 13:51:55 usr_tecnico1 Tecnico_Campo SELECT_PII dbo.Usuarios NEGADO\r\n5 2026-11-17 13:51:55 usr_tecnico1 Tecnico_Campo SELECT_RLS dbo.Fazendas PERMITIDO\r\n4 2026-11-17 13:51:55 usr_app_ia Role_App_IA SELECT_PII dbo.Usuarios NEGADO\r\n3 2026-11-17 13:51:55 usr_app_ia Role_App_IA SELECT_VIEW dbo.vw_Coletas_Publico_IA PERMITIDO\r\n2 2026-11-17 13:51:54 usr_app_ia Role_App_IA IA_INFER_INSERT dbo.Coletas PERMITIDO\r\n1 2026-11-17 13:51:40 dbo Admin_Setup SEED_VOLUME dbo.Coletas PERMITIDO"
   }
 }

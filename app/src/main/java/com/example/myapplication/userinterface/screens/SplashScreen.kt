@@ -66,15 +66,10 @@ private const val SPLASH_MINIMO_MS = 2200L
 private const val SPLASH_MAXIMO_MS = 7000L
 
 /**
- * Tela de abertura / carregamento com a identidade visual CacauApp + CEPLAC/CEPEC.
+ * Tela de abertura / carregamento com a identidade visual CacauApp.
  *
  * Permanece visível até que os dados persistidos ([dadosCarregados]) estejam lidos
  * e o tempo mínimo de exibição tenha passado, então chama [onConcluir].
- *
- * Para usar as marcas oficiais, basta copiar os arquivos (PNG/WebP/XML vetorial) para
- * `app/src/main/res/drawable/` com os nomes `logo_ceplac` e `logo_cepec`; eles são
- * detectados automaticamente em tempo de execução, sem alterar código. Enquanto não
- * existirem, é exibida uma assinatura tipográfica.
  */
 @Composable
 fun SplashScreen(
@@ -163,7 +158,7 @@ fun SplashScreen(
                 )
                 Image(
                     painter = painterResource(id = R.drawable.app_logo),
-                    contentDescription = "Logo CacauApp CEPEC",
+                    contentDescription = "Logo CacauApp",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(168.dp)
@@ -210,93 +205,31 @@ fun SplashScreen(
 
             Spacer(Modifier.weight(1f))
 
-            AssinaturaInstitucional(Modifier.alpha(rodapeAlpha.value))
+            RodapeSplash(Modifier.alpha(rodapeAlpha.value))
             Spacer(Modifier.height(20.dp))
         }
     }
 }
 
 /**
- * Cartão claro com as marcas CEPLAC e CEPEC. Usa os drawables `logo_ceplac` / `logo_cepec`
- * quando presentes; caso contrário, cai para uma assinatura tipográfica.
+ * Rodapé limpo da tela de abertura do aplicativo.
  */
 @Composable
-private fun AssinaturaInstitucional(modifier: Modifier = Modifier) {
+private fun RodapeSplash(modifier: Modifier = Modifier) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            "DESENVOLVIDO PARA",
+            "VISÃO COMPUTACIONAL OFFLINE",
             color = OuroCacau,
             fontSize = 10.sp,
             fontWeight = FontWeight.Bold,
             letterSpacing = 2.sp
         )
-        Spacer(Modifier.height(8.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(18.dp))
-                .background(CremeCacau)
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            MarcaInstitucional(
-                recurso = "logo_ceplac",
-                sigla = "CEPLAC",
-                nomeCompleto = "Comissão Executiva do Plano da Lavoura Cacaueira",
-                modifier = Modifier.weight(1f)
-            )
-            Box(
-                Modifier
-                    .width(1.dp)
-                    .height(44.dp)
-                    .background(MarromProfundo.copy(alpha = 0.18f))
-            )
-            MarcaInstitucional(
-                recurso = "logo_cepec",
-                sigla = "CEPEC",
-                nomeCompleto = "Centro de Pesquisas do Cacau",
-                modifier = Modifier.weight(1f)
-            )
-        }
-    }
-}
-
-@Composable
-private fun MarcaInstitucional(
-    recurso: String,
-    sigla: String,
-    nomeCompleto: String,
-    modifier: Modifier = Modifier
-) {
-    val context = LocalContext.current
-    @Suppress("DiscouragedApi")
-    val resId = remember(recurso) { context.resources.getIdentifier(recurso, "drawable", context.packageName) }
-
-    Column(modifier = modifier.padding(horizontal = 6.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        if (resId != 0) {
-            Image(
-                painter = painterResource(id = resId),
-                contentDescription = "Logo $sigla",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.height(48.dp)
-            )
-        } else {
-            Text(
-                sigla,
-                color = Color(0xFF1B5E20),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.ExtraBold,
-                letterSpacing = 1.sp
-            )
-            Text(
-                nomeCompleto,
-                color = MarromProfundo.copy(alpha = 0.75f),
-                fontSize = 8.sp,
-                lineHeight = 10.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 2.dp)
-            )
-        }
+        Spacer(Modifier.height(6.dp))
+        Text(
+            "Monitoramento Inteligente de Campo",
+            color = CremeCacau.copy(alpha = 0.78f),
+            fontSize = 11.sp,
+            textAlign = TextAlign.Center
+        )
     }
 }

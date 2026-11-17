@@ -5,7 +5,7 @@ import android.net.Uri
 /** Representa um modelo TFLite embutido no APK (pasta assets/). */
 data class ModelEmbutido(
     val nomeArquivo: String,        // ex: "detector.tflite"
-    val nomeExibicao: String,       // ex: "Cacau CEPEC v1"
+    val nomeExibicao: String,       // ex: "Cacau v1"
     val descricao: String,          // ex: "Deteccao de frutos de cacau"
     val labelsDefault: List<String> // rotulos padrao desse modelo
 )
@@ -42,7 +42,7 @@ data class ModelConfig(
 /**
  * Catalogo de modelos embutidos no APK.
  *
- * Contem apenas o modelo padrao do CEPEC. O arquivo .tflite NAO e versionado
+ * Contem apenas o modelo padrao de campo. O arquivo .tflite NAO e versionado
  * (propriedade intelectual) — se ausente de app/src/main/assets/, o app
  * direciona o usuario para a tela "Configurar Modelo IA" para importar um
  * arquivo externo. Qualquer outro modelo deve ser importado dinamicamente.
@@ -50,7 +50,7 @@ data class ModelConfig(
 val MODELOS_EMBUTIDOS = listOf(
     ModelEmbutido(
         nomeArquivo   = "detector.tflite",
-        nomeExibicao  = "Cacau CEPEC (Padrao)",
+        nomeExibicao  = "Cacau (Padrao)",
         descricao     = "Modelo YOLO treinado para deteccao de frutos de cacaueiro",
         labelsDefault = listOf("cacau", "fruto")
     )

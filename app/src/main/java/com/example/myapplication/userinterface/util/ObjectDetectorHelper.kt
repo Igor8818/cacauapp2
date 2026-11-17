@@ -20,7 +20,7 @@ import kotlin.math.pow
 import kotlin.math.roundToInt
 
 /**
- * Helper de detecção TFLite otimizado para inferência YOLO de frutos de cacau em campo (CEPLAC):
+ * Helper de detecção TFLite otimizado para inferência YOLO de frutos de cacau em campo:
  * - Pré-processamento com Letterbox (proporção preservada, preenchimento cinza 114, interpolação bilinear);
  * - Compensação adaptativa de sombra (Gamma LUT para cabruca/sub-bosque escuro);
  * - Inferência Multi-Escala e Tiling sobreposto (SAHI-lite) com Weighted Box Fusion (WBF) para fotos;

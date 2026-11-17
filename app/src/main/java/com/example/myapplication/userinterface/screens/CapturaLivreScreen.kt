@@ -287,7 +287,7 @@ fun TelaPrincipalCapturaOtimizada(
                             value = cloneVal,
                             onValueChange = onCloneChange,
                             label = { Text(label1) },
-                            placeholder = { Text("Ex: CCN-51, SCP-16005...") },
+                            placeholder = { Text("Ex: CCN-51, Variedade A...") },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .menuAnchor(MenuAnchorType.PrimaryEditable, true),

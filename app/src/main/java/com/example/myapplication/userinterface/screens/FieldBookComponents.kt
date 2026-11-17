@@ -29,7 +29,7 @@ import java.util.Locale
 private val VerdeCacau = Color(0xFF2E7D32)
 private val VerdeClaro = Color(0xFFE8F5E9)
 
-/** Pacote de dados agronômicos opcionais da ficha CEPLAC / Field Book para uma planta. */
+/** Pacote de dados agronômicos opcionais da ficha de campo / Field Book para uma planta. */
 data class DadosAgronomicosPlanta(
     val sitPla: String = SituacaoPlanta.NORMAL.rotulo,
     val ocorrencias: Set<String> = emptySet(),
@@ -294,7 +294,7 @@ private fun BotaoRapidoSituacao(
 }
 
 /**
- * Conteúdo limpo e direto do Modal de Ficha CEPLAC / Doenças (sem duplicação e sem acordeão interno):
+ * Conteúdo limpo e direto do Modal de Ficha Agronômica / Doenças (sem duplicação e sem acordeão interno):
  * 1. Cor do Fruto: 2 chips grandes lado a lado ([ Verde ] | [ Roxo ])
  * 2. Perdas e Sanidade (Contadores - 0 + limpos em Grid 2x2):
  *    - Frutos c/ Vassoura (NFVassoura)
@@ -305,7 +305,7 @@ private fun BotaoRapidoSituacao(
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ConteudoFichaCeplacLimpa(
+fun ConteudoFichaAgronomicaLimpa(
     dados: DadosAgronomicosPlanta,
     onDadosChange: (DadosAgronomicosPlanta) -> Unit,
     modifier: Modifier = Modifier
@@ -418,7 +418,7 @@ fun ConteudoFichaCeplacLimpa(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                NOTAS_VIRUS_CEPLAC.forEach { nota ->
+                NOTAS_VIRUS_CAMPO.forEach { nota ->
                     FilterChip(
                         selected = dados.notaVirus == nota,
                         onClick = { onDadosChange(dados.copy(notaVirus = nota)) },

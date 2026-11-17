@@ -305,7 +305,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     fun carregarRota(novaLista: List<RotaColeta>) {
         _rota.value = novaLista
-        // Se a planilha carregada já traz o nome do Ensaio (ex: TC-1801), sincroniza caso necessário
+        // Se a planilha carregada já traz o nome do Ensaio (ex: Campanha 01), sincroniza caso necessário
         val ensaioPlanilha = novaLista.firstOrNull { it.ensaio.isNotBlank() }?.ensaio
         if (!ensaioPlanilha.isNullOrBlank() && _ensaioNome.value.isBlank()) {
             _ensaioNome.value = ensaioPlanilha

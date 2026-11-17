@@ -19,7 +19,7 @@ VALUES
 ('FAZ-07', 'Reserva Cacaueira Leste (Fict.)',   'Una - BA',       -15.293400, -39.075300),
 ('FAZ-08', 'Fazenda Rio Almada (Ficticia)',     'Coaraci - BA',   -14.640800, -39.551200),
 ('FAZ-09', 'Sitio Clone Novo (Ficticio)',       'Ubaitaba - BA',  -14.312500, -39.323100),
-('FAZ-10', 'Unidade Teste CEPEC-Sim (Fict.)',   'Itabuna - BA',   -14.775100, -39.224800);
+('FAZ-10', 'Unidade Teste Sul (Fict.)',         'Itabuna - BA',   -14.775100, -39.224800);
 GO
 
 -- 2. 5 Usuarios ficticios (CPF ficticio, e-mail ficticio, senha com SHA-256 + salt)
@@ -63,7 +63,7 @@ SELECT
         CASE (n % 5)
             WHEN 0 THEN 'CCN-51'
             WHEN 1 THEN 'PS-1319'
-            WHEN 2 THEN 'CEPEC-2'
+            WHEN 2 THEN 'CA-02'
             WHEN 3 THEN 'TSH-1188'
             ELSE 'VB-1151'
         END,
@@ -73,7 +73,7 @@ SELECT
     CASE (n % 5)
         WHEN 0 THEN 'CCN-51'
         WHEN 1 THEN 'PS-1319'
-        WHEN 2 THEN 'CEPEC-2'
+        WHEN 2 THEN 'CA-02'
         WHEN 3 THEN 'TSH-1188'
         ELSE 'VB-1151'
     END AS clone,

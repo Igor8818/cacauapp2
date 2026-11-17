@@ -2,7 +2,7 @@ package com.example.myapplication.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Paleta Oficial CacauApp CEPEC
+// Paleta Oficial CacauApp
 val CacauGreenPrimary    = Color(0xFF2E7D32)
 val CacauGreenDark       = Color(0xFF1B5E20)
 val CacauGreenLight      = Color(0xFF4CAF50)

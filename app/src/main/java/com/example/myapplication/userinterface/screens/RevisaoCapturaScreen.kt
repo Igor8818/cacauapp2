@@ -151,7 +151,7 @@ fun RevisaoCapturaScreen(
     val contagemFinalAuditada = if (plantaInativa) 0 else (caixasDetectadas.size + ajusteRapidoDelta).coerceAtLeast(0)
     val qtdSadiosTotal = if (plantaInativa) 0 else (qtdSadiosCaixas + ajusteRapidoDelta).coerceAtLeast(0)
 
-    // Sincroniza a marcação individual dos frutos e a situação da planta na foto com os dados da planilha CEPLAC
+    // Sincroniza a marcação individual dos frutos e a situação da planta na foto com a ficha agronômica
     fun sincronizarFrutosComFicha(novaSit: SituacaoPlanta = situacaoPlantaSelecionada) {
         val cb = onDadosAgronomicosChange ?: return
         if (novaSit != SituacaoPlanta.NORMAL) {
@@ -777,7 +777,7 @@ fun RevisaoCapturaScreen(
                     color = Color(0xFF1B5E20)
                 )
 
-                ConteudoFichaCeplacLimpa(
+                ConteudoFichaAgronomicaLimpa(
                     dados = dadosAgronomicos,
                     onDadosChange = onDadosAgronomicosChange
                 )

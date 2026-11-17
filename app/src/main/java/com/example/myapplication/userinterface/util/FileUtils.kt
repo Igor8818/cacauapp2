@@ -254,7 +254,7 @@ fun processarCSVComIndices(
 /**
  * Função pura de parsing de planilha de rota (testável sem dependência de Context/Android).
  * Preserva a ordem das linhas (ou ordena pela coluna `Ordem` quando presente) e extrai
- * metadados e coletas prévias de planilhas CEPLAC / Field Book.
+ * metadados e coletas prévias de planilhas Field Book / campo.
  */
 fun parseLinhasCSVComIndices(
     linhas: List<String>,
@@ -393,9 +393,9 @@ fun parseLinhasCSVComIndices(
 
 /**
  * Exporta os [registros] como planilha CSV compatível com Excel pt-BR (delimitador ';' e UTF-8 + BOM)
- * e com as colunas analíticas padrão da CEPLAC / Field Book.
+ * e com as colunas analíticas padrão do Field Book.
  */
-suspend fun exportarPlanilhaCEPECAssync(
+suspend fun exportarPlanilhaColetaAssync(
     context: Context,
     registros: List<RegistroCacau>,
     ensaio: String,
@@ -416,7 +416,7 @@ suspend fun exportarPlanilhaCEPECAssync(
     val nomeFinal = "Coleta_${nomeEnsaio}_${dataHora}.csv"
     val separador = ";"
 
-    val cabecalho = gerarCabecalhoCsvCepec(labelColuna1, labelColuna2, labelColuna3, separador)
+    val cabecalho = gerarCabecalhoCsvCampo(labelColuna1, labelColuna2, labelColuna3, separador)
 
     var arquivoCriadoUri: Uri? = null
     var sucesso = false
@@ -427,7 +427,7 @@ suspend fun exportarPlanilhaCEPECAssync(
             val contentValues = ContentValues().apply {
                 put(MediaStore.MediaColumns.DISPLAY_NAME, nomeFinal)
                 put(MediaStore.MediaColumns.MIME_TYPE, "text/csv")
-                put(MediaStore.MediaColumns.RELATIVE_PATH, "Download/CEPEC")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, "Download/CacauApp")
             }
             val uri = context.contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
             if (uri != null) {
@@ -437,7 +437,7 @@ suspend fun exportarPlanilhaCEPECAssync(
                     saida.use { out -> gravarCsvNoFluxo(out, cabecalho, registros, separador) }
                     arquivoCriadoUri = uri
                     sucesso = true
-                    mensagemRetorno = "Planilha salva em Downloads/CEPEC: $nomeFinal"
+                    mensagemRetorno = "Planilha salva em Downloads/CacauApp: $nomeFinal"
                 } catch (e: Exception) {
                     Log.w("FileUtils", "Falha no MediaStore, usando fallback: ${e.message}")
                     try { context.contentResolver.delete(uri, null, null) } catch (_: Exception) {}
@@ -471,7 +471,7 @@ suspend fun exportarPlanilhaCEPECAssync(
 }
 
 /** Wrapper síncrono para compatibilidade com chamadas simples da interface. */
-fun exportarPlanilhaCEPEC(
+fun exportarPlanilhaColeta(
     context: Context,
     registros: List<RegistroCacau>,
     ensaio: String,
@@ -480,13 +480,13 @@ fun exportarPlanilhaCEPEC(
     labelColuna3: String
 ) {
     CoroutineScope(Dispatchers.Main).launch {
-        exportarPlanilhaCEPECAssync(context, registros, ensaio, labelColuna1, labelColuna2, labelColuna3) { _, msg, _ ->
+        exportarPlanilhaColetaAssync(context, registros, ensaio, labelColuna1, labelColuna2, labelColuna3) { _, msg, _ ->
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
         }
     }
 }
 
-fun gerarCabecalhoCsvCepec(
+fun gerarCabecalhoCsvCampo(
     labelColuna1: String = "Clone",
     labelColuna2: String = "Parcela",
     labelColuna3: String = "Planta",
@@ -538,7 +538,7 @@ private fun numBr(valor: Double, casas: Int): String =
 
 /**
  * Obtém o clone a partir do ID da planta.
- * Suporta tanto o formato CEPLAC ("SCP-16005_TC-1801_par1_pla1_c0226")
+ * Suporta tanto o formato completo com parcela/planta ("VAR-01_CAMP-01_par1_pla1_c01")
  * quanto o formato gerado pelo app ("{clone}_{rotulo2}{parcela}_{rotulo3}{planta}").
  */
 fun cloneDoPlantId(plantId: String): String {
@@ -594,7 +594,7 @@ private fun gravarCsvNoFluxo(
             val iso = if (reg.timestampMs > 0L) formatoIso.format(Date(reg.timestampMs)) else ""
             val cloneFinal = reg.cloneExplicito.ifBlank { cloneDoPlantId(reg.plantId) }
 
-            // Padrão estatístico CEPLAC: quando a planta é Cavalo/Morta/Errada, exporta "." nos campos de frutos
+            // Padrão estatístico de campo: quando a planta é Cavalo/Morta/Errada, exporta "." nos campos de frutos
             val linha = listOf(
                 t(reg.plantId),
                 t(reg.ensaioManual),
@@ -655,7 +655,7 @@ fun compartilharArquivo(context: Context, uri: Uri, nomeExibicao: String) {
             putExtra(Intent.EXTRA_SUBJECT, "Dados de Campo - $nomeExibicao")
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
-        context.startActivity(Intent.createChooser(intent, "Compartilhar dados CEPEC"))
+        context.startActivity(Intent.createChooser(intent, "Compartilhar dados CacauApp"))
     } catch (e: Exception) {
         Log.e("FileUtils", "Erro ao compartilhar arquivo: ${e.message}")
         Toast.makeText(context, "Erro ao abrir compartilhamento.", Toast.LENGTH_SHORT).show()

@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     var splashVisivel by rememberSaveable { mutableStateOf(true) }
 
                     Box(Modifier.fillMaxSize()) {
-                        AppCacauCEPEC(appViewModel)
+                        AppCacau(appViewModel)
                         AnimatedVisibility(
                             visible = splashVisivel,
                             exit = fadeOut(tween(450))
@@ -69,7 +69,7 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("MissingPermission")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppCacauCEPEC(viewModel: AppViewModel = viewModel()) {
+fun AppCacau(viewModel: AppViewModel = viewModel()) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -155,7 +155,7 @@ fun AppCacauCEPEC(viewModel: AppViewModel = viewModel()) {
         }
     }
 
-    // Leitor de planilha CSV de rota (suporta formato CEPLAC / Field Book e planilhas personalizadas)
+    // Leitor de planilha CSV de rota (suporta formato Field Book e planilhas personalizadas)
     val launcherArquivoCSV = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             val cabecalho = lerApenasCabecalho(context, it)
@@ -264,7 +264,7 @@ fun AppCacauCEPEC(viewModel: AppViewModel = viewModel()) {
                     dismissButton = {
                         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             TextButton(onClick = {
-                                exportarPlanilhaCEPEC(
+                                exportarPlanilhaColeta(
                                     context,
                                     listaRegistros,
                                     ensaioNome,

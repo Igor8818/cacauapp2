@@ -205,7 +205,7 @@ fun tirarFoto(
         put(MediaStore.MediaColumns.DISPLAY_NAME, name)
         put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            put(MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/CEPEC_Analise")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/CacauApp_Analise")
         }
     }
     val outputOptions = ImageCapture.OutputFileOptions.Builder(

@@ -134,7 +134,7 @@ fun DiagnosticoScreen(
                     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                         Text("Dispositivo e Aplicação", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = verde)
                         HorizontalDivider()
-                        ItemInfoDiagnostico("CacauApp CEPEC", "Versão 1.0 (Build 2026)")
+                        ItemInfoDiagnostico("CacauApp", "Versão 1.0 (Build 2026)")
                         ItemInfoDiagnostico("Dispositivo", "${Build.MANUFACTURER.uppercase()} ${Build.MODEL}")
                         ItemInfoDiagnostico("Android OS", "API ${Build.VERSION.SDK_INT} (Android ${Build.VERSION.RELEASE})")
                         ItemInfoDiagnostico("Modo de Operação", "100% Offline (Edge AI)")

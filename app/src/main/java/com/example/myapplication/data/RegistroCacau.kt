@@ -25,7 +25,7 @@ data class RegistroCacau(
     val observacao: String = "",
     /** Momento real da captura (epoch ms). 0 em registros antigos, criados antes deste campo existir. */
     val timestampMs: Long = 0L,
-    // ── Metadados e Variáveis Agronômicas CEPLAC / Field Book ────────────────
+    // ── Metadados e Variáveis Agronômicas Field Book ─────────────────────────
     val cloneExplicito: String = "",
     val bloco: String = "",
     val ordem: Int = 0,

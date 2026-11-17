@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
 
 /**
- * Tela inicial de Check-in estilizada com identidade visual CacauApp CEPEC.
+ * Tela inicial de Check-in estilizada com identidade visual CacauApp.
  */
 @Composable
 fun TelaCheckInSimples(
@@ -78,7 +78,7 @@ fun TelaCheckInSimples(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.app_logo),
-                        contentDescription = "Logo CacauApp CEPEC",
+                        contentDescription = "Logo CacauApp",
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
                     )
@@ -87,7 +87,7 @@ fun TelaCheckInSimples(
                 Spacer(Modifier.height(14.dp))
 
                 Text(
-                    text = "CacauApp CEPEC",
+                    text = "CacauApp",
                     fontSize = 23.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color(0xFF1B5E20)
@@ -106,7 +106,7 @@ fun TelaCheckInSimples(
                     modifier = Modifier.padding(top = 8.dp)
                 ) {
                     Text(
-                        text = "100% Offline · Edge AI · CEPLAC",
+                        text = "100% Offline · Edge AI · Campo",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color(0xFF2E7D32),
@@ -120,7 +120,7 @@ fun TelaCheckInSimples(
                     value = ensaio,
                     onValueChange = onEnsaioChange,
                     label = { Text("Nome da Campanha / Ensaio *") },
-                    placeholder = { Text("Ex: TC-1801") },
+                    placeholder = { Text("Ex: Campanha 01") },
                     singleLine = true,
                     leadingIcon = {
                         Icon(Icons.Default.CalendarToday, null, tint = Color(0xFF2E7D32))
@@ -158,7 +158,7 @@ fun TelaCheckInSimples(
                     value = fazenda,
                     onValueChange = onFazendaChange,
                     label = { Text("Estação / Quadra / Fazenda (Opcional)") },
-                    placeholder = { Text("Ex: CEPEC Quadra G") },
+                    placeholder = { Text("Ex: Fazenda Quadra A") },
                     singleLine = true,
                     leadingIcon = {
                         Icon(Icons.Default.Landscape, null, tint = Color(0xFF2E7D32))

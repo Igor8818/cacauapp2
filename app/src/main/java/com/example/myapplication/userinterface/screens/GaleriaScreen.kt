@@ -27,7 +27,7 @@ import com.example.myapplication.data.SituacaoPlanta
 import com.example.myapplication.data.ocorrencias
 import com.example.myapplication.userinterface.components.CartaoMetrica
 import com.example.myapplication.userinterface.util.compartilharArquivo
-import com.example.myapplication.userinterface.util.exportarPlanilhaCEPECAssync
+import com.example.myapplication.userinterface.util.exportarPlanilhaColetaAssync
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -39,7 +39,7 @@ private enum class FiltroGaleria(val rotulo: String) {
 
 /**
  * Tela da Galeria com histórico de coletas, filtros por sanidade/situação,
- * edição completa de contagem e variáveis CEPLAC, exclusão com desfazer e exportação CSV.
+ * edição completa de contagem e variáveis agronômicas, exclusão com desfazer e exportação CSV.
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -99,7 +99,7 @@ fun TelaGaleria(
                     onClick = {
                         coroutineScope.launch {
                             exportandoPlanilha = true
-                            exportarPlanilhaCEPECAssync(context, registros, ensaio, l1, l2, l3) { sucesso, _, uri ->
+                            exportarPlanilhaColetaAssync(context, registros, ensaio, l1, l2, l3) { sucesso, _, uri ->
                                 exportandoPlanilha = false
                                 if (sucesso && uri != null) {
                                     compartilharArquivo(context, uri, "Campanha_${ensaio}")
@@ -117,7 +117,7 @@ fun TelaGaleria(
                     onClick = {
                         coroutineScope.launch {
                             exportandoPlanilha = true
-                            exportarPlanilhaCEPECAssync(context, registros, ensaio, l1, l2, l3) { _, msg, _ ->
+                            exportarPlanilhaColetaAssync(context, registros, ensaio, l1, l2, l3) { _, msg, _ ->
                                 exportandoPlanilha = false
                                 android.widget.Toast.makeText(context, msg, android.widget.Toast.LENGTH_LONG).show()
                             }
@@ -207,15 +207,15 @@ fun TelaGaleria(
                                     fontSize = 12.sp,
                                     color = if (reg.isInativa) Color(0xFFE65100) else Color.DarkGray
                                 )
-                                val extrasCeplac = buildList {
+                                val extrasAgronomicos = buildList {
                                     if (reg.corFruto.isNotBlank()) add("Cor: ${reg.corFruto}")
                                     if (reg.nfVassoura > 0) add("NFVas: ${reg.nfVassoura}")
                                     if (reg.nfPodridao > 0) add("NFPod: ${reg.nfPodridao}")
                                     if (reg.nvTotal > 0) add("NVTot: ${reg.nvTotal}")
                                     if (reg.notaVirus > 0) add("Vírus: ${reg.notaVirus}")
                                 }.joinToString(" · ")
-                                if (extrasCeplac.isNotBlank()) {
-                                    Text(extrasCeplac, fontSize = 11.sp, color = Color(0xFF2E7D32), fontWeight = FontWeight.Medium)
+                                if (extrasAgronomicos.isNotBlank()) {
+                                    Text(extrasAgronomicos, fontSize = 11.sp, color = Color(0xFF2E7D32), fontWeight = FontWeight.Medium)
                                 }
                                 if (reg.observacao.isNotBlank()) {
                                     Text(
@@ -290,7 +290,7 @@ fun TelaGaleria(
                             singleLine = true,
                             modifier = Modifier.fillMaxWidth()
                         )
-                        ConteudoFichaCeplacLimpa(
+                        ConteudoFichaAgronomicaLimpa(
                             dados = dadosAgroEdicao,
                             onDadosChange = {
                                 dadosAgroEdicao = it

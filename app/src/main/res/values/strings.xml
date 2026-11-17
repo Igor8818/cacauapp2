@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CacauApp CEPEC</string>
+    <string name="app_name">CacauApp</string>
     <string name="coleta_livre">Coleta Livre</string>
     <string name="modo_rota">Modo Rota</string>
     <string name="galeria">Galeria</string>

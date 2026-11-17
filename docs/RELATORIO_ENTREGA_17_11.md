@@ -22,7 +22,7 @@
 ## 1. O que o Aplicativo Faz e Que Problema Resolve
 
 ### Que problema existe hoje no campo?
-Na pesquisa e no acompanhamento de fazendas de cacau (CEPEC/CEPLAC), os técnicos precisam contar frutos e identificar doenças diretamente nos pés de cacau em áreas rurais onde normalmente não há sinal de internet. Fazer essa contagem no olho e anotar tudo em papel toma muito tempo, gera erros na digitação e dificulta o controle centralizado das fazendas.
+Na pesquisa e no acompanhamento de fazendas de cacau, os técnicos precisam contar frutos e identificar doenças diretamente nos pés de cacau em áreas rurais onde normalmente não há sinal de internet. Fazer essa contagem no olho e anotar tudo em papel toma muito tempo, gera erros na digitação e dificulta o controle centralizado das fazendas.
 
 ### O que o CacauApp2 faz?
 O **CacauApp2** é um aplicativo de celular que usa a câmera com Inteligência Artificial funcionando **100% sem internet** para localizar e contar os frutos de cacau na hora. Logo após a foto, o técnico pode revisar a imagem e corrigir qualquer marcação na tela, seguir o roteiro de plantas da fazenda e gerar os dados prontos para envio a um banco de dados seguro e rápido.
@@ -73,7 +73,7 @@ Foto da planta no campo → Ajuste de tamanho e brilho para fotos escuras → Id
 
 ### Resultado do Treinamento, Rapidez e Custo
 - **Modelo comum vs. Modelo treinado:** Um modelo comum de fábrica não conhece cacau — nas 5 fotos de cacau não acertou nenhum fruto (confundiu com maçã, laranja e banana) e ainda errou 6 vezes na foto só de folhas. Após o treinamento específico para cacau (339 rodadas para reconhecer fruto sadio e 3 doenças: podridão-parda, monilíase e vassoura-de-bruxa), o modelo atingiu **94,2% de acerto**, identificando **39 frutos corretos** nas fotos de teste e **0 erros** nas folhas.
-- **Velocidade e Custo:** Leva em média **0,06 segundo** por foto no computador e **0,27 segundo** no formato leve de celular. Como roda tudo dentro do aparelho sem servidor pago, o **custo é R$ 0,00** para cada 1.000 análises.
+- **Velocidade e Custo:** Leva em média **0,04 segundo** por foto no computador e **0,21 segundo** no formato leve de celular. Como roda tudo dentro do aparelho sem servidor pago, o **custo é R$ 0,00** para cada 1.000 análises.
 
 ![Comparativo do Treinamento da IA](evidencias/05_finetuning_curvas_e_comparativo.png)
 
@@ -119,11 +119,11 @@ O banco foi preenchido com **100.003 coletas**, **10 fazendas**, **5 usuários**
 
 | Nº | Data | Quem Pediu | Perfil | Ação Tentada | Resultado |
 |---|---|---|---|---|---|
-| 9 | 16/11/2026 | Técnico 1 | Técnico de Campo | Tentativa de comando malicioso no texto | Bloqueado por segurança |
-| 8 | 16/11/2026 | Auditor 1 | Auditor Agrônomo | Consulta de usuários com CPF mascarado | Permitido |
-| 7 | 16/11/2026 | Técnico 1 | Técnico de Campo | Tentativa de apagar coleta | Negado |
-| 6 | 16/11/2026 | Técnico 1 | Técnico de Campo | Tentativa de ler lista de CPFs | Negado |
-| 5 | 16/11/2026 | Técnico 1 | Técnico de Campo | Listar fazendas (vê apenas Fazenda 1) | Permitido |
-| 4 | 16/11/2026 | Sistema IA | Papel da IA | Tentativa de acessar dados pessoais | Negado |
-| 3 | 16/11/2026 | Sistema IA | Papel da IA | Leitura de visão pública sem dados pessoais | Permitido |
-| 2 | 16/11/2026 | Sistema IA | Papel da IA | Gravação de nova contagem de foto | Permitido |
+| 9 | 17/11/2026 | Técnico 1 | Técnico de Campo | Tentativa de comando malicioso no texto | Bloqueado por segurança |
+| 8 | 17/11/2026 | Auditor 1 | Auditor Agrônomo | Consulta de usuários com CPF mascarado | Permitido |
+| 7 | 17/11/2026 | Técnico 1 | Técnico de Campo | Tentativa de apagar coleta | Negado |
+| 6 | 17/11/2026 | Técnico 1 | Técnico de Campo | Tentativa de ler lista de CPFs | Negado |
+| 5 | 17/11/2026 | Técnico 1 | Técnico de Campo | Listar fazendas (vê apenas Fazenda 1) | Permitido |
+| 4 | 17/11/2026 | Sistema IA | Papel da IA | Tentativa de acessar dados pessoais | Negado |
+| 3 | 17/11/2026 | Sistema IA | Papel da IA | Leitura de visão pública sem dados pessoais | Permitido |
+| 2 | 17/11/2026 | Sistema IA | Papel da IA | Gravação de nova contagem de foto | Permitido |

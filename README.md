@@ -1,6 +1,6 @@
 # 🍫 CacauApp2 — Visão Computacional Offline + Banco de Dados Seguro e Otimizado
 
-Aplicativo Android nativo desenvolvido para o **CEPEC (Centro de Pesquisa do Cacau) / CEPLAC** para contagem automatizada e monitoramento biométrico/fitossanitário de frutos de cacaueiro (*Theobroma cacao L.*), integrado a uma arquitetura local de **SQL Server 2025 com controle de acesso granular (RBAC), proteção de dados sensíveis (DDM, SHA-256, RLS), índices de cobertura e ponte CLI auditada para IA**.
+Aplicativo Android nativo desenvolvido para contagem automatizada e monitoramento biométrico/fitossanitário de frutos de cacaueiro (*Theobroma cacao L.*), integrado a uma arquitetura local de **SQL Server 2025 com controle de acesso granular (RBAC), proteção de dados sensíveis (DDM, SHA-256, RLS), índices de cobertura e ponte CLI auditada para IA**.
 
 > **Regras do projeto atendidas:** sem SaaS, site ou aplicação web; dados 100% fictícios/anonimizados; chaves, senhas e modelos `.tflite`/`.pt` fora do repositório.
 
@@ -37,7 +37,7 @@ Aplicativo Android nativo desenvolvido para o **CEPEC (Centro de Pesquisa do Cac
 ## 📲 1. Aplicativo Android (Edge AI Offline)
 
 - **Coleta Livre & Revisão Científica**: câmera ao vivo com detecção contínua, captura em resolução total, toque para remover falsos positivos ou adicionar frutos perdidos e separação entre contagem da IA e contagem final auditada.
-- **Modo Rota (FieldBook)**: importação de planilhas CEPLAC (`.csv`) com navegação planta a planta e salto para a próxima pendente.
+- **Modo Rota (FieldBook)**: importação de planilhas de campo (`.csv`) com navegação planta a planta e salto para a próxima pendente.
 - **Galeria com Edição & Desfazer**, **Exportação CSV RFC 4180 pt-BR** (delimitador `;`, UTF-8 BOM, proteção contra CSV formula injection) e **Diagnóstico do Sistema** (latência em ms, GPU Delegate/CPU, GPS).
 
 ### Política de Privacidade — Modelos de IA (`.tflite` / `.pt`)
@@ -140,4 +140,4 @@ CacauApp2/
 
 ## 📄 Licença
 
-Desenvolvido para uso acadêmico e pesquisa junto ao **CEPEC / CEPLAC**. Todos os direitos reservados.
+Desenvolvido para uso acadêmico e pesquisa em campo cacaueiro. Todos os direitos reservados.

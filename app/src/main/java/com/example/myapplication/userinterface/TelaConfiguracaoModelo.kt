@@ -149,7 +149,7 @@ fun TelaConfiguracaoModelo(
                         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Text("Nenhum modelo embutido neste build", fontWeight = FontWeight.Bold, color = Color(0xFFE65100))
                             Text(
-                                "O modelo do CEPEC é proprietário e não acompanha o repositório. " +
+                                "O modelo .tflite padrão não acompanha o repositório. " +
                                     "Importe o arquivo .tflite na seção abaixo para ativar a detecção.",
                                 fontSize = 12.sp, color = Color.DarkGray
                             )
@@ -441,7 +441,7 @@ fun TelaConfiguracaoModelo(
                     HorizontalDivider()
                     Text("Dispositivo: ${Build.MANUFACTURER.uppercase()} ${Build.MODEL}", fontSize = 12.sp, color = Color.DarkGray)
                     Text("Android: API ${Build.VERSION.SDK_INT} (Android ${Build.VERSION.RELEASE})", fontSize = 12.sp, color = Color.DarkGray)
-                    Text("Operação: 100% Offline (Edge AI · CEPLAC/CEPEC)", fontSize = 12.sp, color = verde, fontWeight = FontWeight.Medium)
+                    Text("Operação: 100% Offline (Edge AI · Campo)", fontSize = 12.sp, color = verde, fontWeight = FontWeight.Medium)
                 }
             },
             confirmButton = {

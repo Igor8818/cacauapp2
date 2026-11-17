@@ -8,7 +8,7 @@ data class RotaColeta(
     val qtdFrutos: String = "0",
     /** Ocorrências fitossanitárias / observações separadas por "|" (ver [OcorrenciaCampo]). */
     val observacao: String = "",
-    /** Identificador original vindo da planilha (ex: SCP-16005_TC-1801_par1_pla1_c0226). */
+    /** Identificador original vindo da planilha (ex: VAR-01_CAMP-01_par1_pla1_c01). */
     val plantIdOriginal: String = "",
     val ensaio: String = "",
     val bloco: String = "",
@@ -29,7 +29,7 @@ data class RotaColeta(
     val nvTotal: Int = 0,
     /** Cor do fruto avaliada na planta: "Roxo", "Verde" ou vazio. */
     val corFruto: String = "",
-    /** Nota de sintomas de vírus (escala CEPLAC: 0, 1, 2, 4, 8, 16, 32, 64). */
+    /** Nota de sintomas de vírus (escala agronômica: 0, 1, 2, 4, 8, 16, 32, 64). */
     val notaVirus: Int = 0
 ) {
     /** Usa o plant_id oficial da planilha quando existir; caso contrário, gera o padrão do app. */
@@ -86,7 +86,7 @@ data class RotaColeta(
         }
 }
 
-/** Situações oficiais de planta utilizadas nas planilhas de campo da CEPLAC. */
+/** Situações de planta utilizadas nas planilhas de campo. */
 enum class SituacaoPlanta(val rotulo: String) {
     NORMAL("Normal"),
     CAVALO("Cavalo"),
@@ -116,8 +116,8 @@ enum class OcorrenciaCampo(val rotulo: String) {
     FALTA_AGUA("Estresse hídrico")
 }
 
-val NOTAS_VIRUS_CEPLAC = listOf(0, 1, 2, 4, 8, 16, 32, 64)
-val CORES_FRUTO_CEPLAC = listOf("Roxo", "Verde")
+val NOTAS_VIRUS_CAMPO = listOf(0, 1, 2, 4, 8, 16, 32, 64)
+val CORES_FRUTO_CAMPO = listOf("Roxo", "Verde")
 
 fun String.ocorrencias(): List<String> = split("|").map { it.trim() }.filter { it.isNotEmpty() }
 

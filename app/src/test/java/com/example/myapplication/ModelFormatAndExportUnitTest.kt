@@ -13,7 +13,7 @@ class ModelFormatAndExportUnitTest {
     // ── Formatos de modelo ────────────────────────────────────────────────────
 
     @Test
-    fun modeloCepec_yoloV8Transposto_640() {
+    fun modeloCacau_yoloV8Transposto_640() {
         val f = analisarFormatoModelo(
             inShape = intArrayOf(1, 640, 640, 3), entradaFloat32 = true, entradaUint8 = false,
             outShape = intArrayOf(1, 5, 8400), saidaFloat32 = true

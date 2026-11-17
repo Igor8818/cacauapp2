@@ -104,7 +104,7 @@ class FieldBookLogicUnitTest {
     }
 
     @Test
-    fun importacaoPlanilhaCeplac_preservaOrdemPlantIdBlocoEHistorico() {
+    fun importacaoPlanilhaCampo_preservaOrdemPlantIdBlocoEHistorico() {
         val csv = listOf(
             "plant_id,Ensaio ,Bloco,Parcela,Planta,Clone,Ordem,SitPla2023c,SitPla2023L",
             "SCP-16005_TC-1801_par1_pla1_c0226,TC-1801,1,1,1,SCP-16005,1,N11_P0_E0_M0_V0,nnnnnnnnnnn",
@@ -140,7 +140,7 @@ class FieldBookLogicUnitTest {
     }
 
     @Test
-    fun importacaoPlanilhaCeplacParcialmenteColetada_reconheceColetasPrevias() {
+    fun importacaoPlanilhaCampoParcialmenteColetada_reconheceColetasPrevias() {
         val csv = listOf(
             "plant_id,Ensaio ,Bloco,Parcela,Planta,Clone,Ordem,SitPla2023c,SitPla2023L,SitPla,NFPequenos,NFMedios,NFAdultos,NFMaduros,NFVassoura,NFPodridao,NFOutrasPerdas,NVTotal,CorFruto,NotaVirus",
             "SCP-16005_TC-1801_par1_pla1_c0226,TC-1801,1,1,1,SCP-16005,1,N11_P0_E0_M0_V0,nnnnnnnnnnn,Normal,13,2,1,,,,,,Roxo,0",

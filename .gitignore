@@ -23,7 +23,7 @@ __pycache__/
 .venv/
 venv/
 
-# --- Modelos de IA (proprietarios CEPEC - NUNCA subir ao GitHub) ---
+# --- Modelos de IA (arquivos proprietarios - NUNCA subir ao GitHub) ---
 *.tflite
 **/*.tflite
 *.pt
