@@ -1,14 +1,14 @@
-# 🍫 CacauApp2 — Visão Computacional Offline + Banco de Dados Seguro e Otimizado
+# 🛡️ CacauApp2 — Segurança e Tuning em SQL Server 2025 (100k+ Linhas) + Android Edge AI
 
 <p>
-  <img src="https://img.shields.io/badge/Kotlin-Android_Edge_AI-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin Android" />
   <img src="https://img.shields.io/badge/SQL_Server_2025-RBAC_%E2%80%A2_RLS_%E2%80%A2_DDM-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white" alt="SQL Server 2025" />
-  <img src="https://img.shields.io/badge/TensorFlow_Lite-YOLOv8_%2F_YOLO11-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" alt="TensorFlow Lite" />
-  <img src="https://img.shields.io/badge/Python-Audited_CLI_Bridge-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python CLI Bridge" />
+  <img src="https://img.shields.io/badge/Query_Tuning--99.8%25_Logical_Reads_(100k_Rows)-10B981?style=for-the-badge" alt="Query Tuning" />
+  <img src="https://img.shields.io/badge/Python-Anti--SQLi_CLI_Bridge-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python CLI Bridge" />
+  <img src="https://img.shields.io/badge/Kotlin-Android_Edge_AI-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin Android" />
   <img src="https://img.shields.io/badge/Tests-58_Automated_(39_Unit_%2B_19_SQL)-25A162?style=for-the-badge&logo=junit5&logoColor=white" alt="58 Automated Tests" />
 </p>
 
-Aplicativo Android nativo desenvolvido para contagem automatizada e monitoramento biométrico/fitossanitário de frutos de cacaueiro (*Theobroma cacao L.*), integrado a uma arquitetura local de **SQL Server 2025 com controle de acesso granular (RBAC), proteção de dados sensíveis (DDM, SHA-256, RLS), índices de cobertura e ponte CLI auditada para IA**.
+Arquitetura de **Engenharia de Dados Segura, Otimização de Consultas Relacionais e Edge AI Offline**, integrando um banco **SQL Server 2025** (com **RBAC em 4 papéis**, **Row-Level Security**, **Dynamic Data Masking + SHA-256**, trilha imutável de auditoria e **Covering Indexes** validados sobre **100.000+ linhas**) a uma **ponte CLI Python anti-SQLi (`EXECUTE AS USER`)** e aplicativo Android nativo em Kotlin/Compose.
 
 > **Regras do projeto atendidas:** sem SaaS, site ou aplicação web; dados 100% fictícios/anonimizados; chaves, senhas e modelos `.tflite`/`.pt` fora do repositório.
 
